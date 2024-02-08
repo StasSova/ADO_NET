@@ -1,0 +1,11 @@
+﻿<Application x:Class="_02_ConnectionToDB_RequestToDB.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:_02_ConnectionToDB_RequestToDB"
+             xmlns:view ="clr-namespace:_02_ConnectionToDB_RequestToDB.MVVM">
+
+    <Application.Resources>
+
+    </Application.Resources>
+
+</Application>
