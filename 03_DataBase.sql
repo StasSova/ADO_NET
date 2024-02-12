@@ -33,6 +33,22 @@ create table Product(
 )
 go
 
+SELECT TOP 1 
+    P.Id, 
+    P.Name AS ProductName, 
+    TP.[Type] AS ProductType, 
+    S.[Name] AS SupplierName, 
+    P.[Count], 
+    P.Cost_Price, 
+    P.Date_Delivery
+FROM 
+    Product AS P
+JOIN 
+    TypeOfProduct AS TP ON P.Type_ID = TP.Id
+JOIN 
+    Supplier AS S ON P.Supplier_ID = S.Id
+ORDER BY 
+    P.[Count] desc;
 
 -- Инициализация таблицы TypeOfProduct
 INSERT INTO TypeOfProduct ([Type])
