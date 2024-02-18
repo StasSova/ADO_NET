@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="_04_StationeryCompany.MVVM.ViewElements.View.V_LogOut"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:_04_StationeryCompany.MVVM.ViewElements.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="bt_header_elem_style" TargetType="Button">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{DynamicResource w_primaryContainerColor}"/>
+                <Setter Property="Tag" Value="{DynamicResource w_primaryTextColor}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border 
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="0 0 5 5"
+                                SnapsToDevicePixels="True">
+                                <ContentPresenter 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" 
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                    RecognizesAccessKey="True"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="Background" Value="{DynamicResource w_onHoverPrimaryContainerColor}"/>
+                        <Setter Property="Tag" Value="{DynamicResource w_onHoverPrimaryTextColor}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Button x:Name="btn_Container" Style="{StaticResource bt_header_elem_style}">
+            <Viewbox Width="24px" Height="24px" Margin="12 8">
+                <Path xmlns:x="http://www.w3.org/2000/svg" Fill="{Binding Tag, ElementName=btn_Container}">
+                    <Path.Data>
+                        <PathGeometry Figures="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z" FillRule="Nonzero"/>
+                    </Path.Data>
+                </Path>
+            </Viewbox>
+
+            <!--<Button.InputBindings>
+                <MouseBinding Gesture="LeftClick" Command="{Binding MoveToProfilePageCommand}"/>
+            </Button.InputBindings>-->
+        </Button>
+    </Grid>
+</UserControl>

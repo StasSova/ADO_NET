@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Components\ActionButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Components\GridHeaderButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\Insert\View\V_InsertItem.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\Update\View\V_UpdateItem.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\ViewElements\PageHeader.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\ViewElements\View\V_Logo.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\ViewElements\View\V_LogOut.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\ViewElements\View\V_User.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\V_CompanyPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\V_HystoryPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\V_ItemPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\V_Main.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\V_ManagerPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\V_TypePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Components\ActionButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Components\GridHeaderButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\Insert\View\V_InsertItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\Update\View\V_UpdateItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\ViewElements\PageHeader.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\ViewElements\View\V_Logo.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\ViewElements\View\V_LogOut.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\ViewElements\View\V_User.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\V_CompanyPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\V_HystoryPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\V_ItemPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\V_Main.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\V_ManagerPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\V_TypePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resource\ColorStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resource\Style.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

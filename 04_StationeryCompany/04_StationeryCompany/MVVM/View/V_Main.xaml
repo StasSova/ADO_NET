@@ -1,0 +1,199 @@
+﻿<Page x:Class="_04_StationeryCompany.MVVM.View.V_Main"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:_04_StationeryCompany.MVVM.View"
+      mc:Ignorable="d"
+      
+      
+      xmlns:Component="clr-namespace:_04_StationeryCompany.Components"
+      xmlns:PageHeaderElement="clr-namespace:_04_StationeryCompany.MVVM.ViewElements"
+      xmlns:ViewModel="clr-namespace:_04_StationeryCompany.MVVM"
+      
+      d:DesignHeight="450" d:DesignWidth="800"
+      Background="{StaticResource w_primaryBackgroundColor}"
+      Title="CAPITOS">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <Style x:Key="bt_NavigationElement" TargetType="Button">
+                <Setter Property="Width" Value="auto"/>
+                <Setter Property="Margin" Value="0 0 16 0"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{DynamicResource w_primaryContainerColor}"/>
+                <Setter Property="Tag" Value="{DynamicResource w_primaryTextColor}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border 
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5"
+                                SnapsToDevicePixels="True">
+                                <ContentPresenter 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" 
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                    RecognizesAccessKey="True"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="Background" Value="{DynamicResource w_onHoverPrimaryContainerColor}"/>
+                        <Setter Property="Tag" Value="{DynamicResource w_onHoverPrimaryTextColor}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="StackPanel" x:Key="HoverColorStackPanelStyle">
+                <Setter Property="Margin" Value="8 0"/>
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="txt_NavigationElement" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="DemiBold"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Page.DataContext>
+        <ViewModel:VM_Main/>
+    </Page.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!--HEADER-->
+        <PageHeaderElement:PageHeader
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"/>
+        
+        <Grid
+            Grid.Row="1"
+            Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="10" Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--Title-->
+            
+            <!--Information-->
+            <Grid
+                Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!--PAGES-->
+                <ScrollViewer
+                    Grid.Row="0"
+                    VerticalScrollBarVisibility="Disabled"
+                    HorizontalScrollBarVisibility="Hidden"
+                    Margin="0 0 0 16">
+                    <StackPanel 
+                        Orientation="Horizontal">
+                        <Button 
+                            Style="{StaticResource bt_NavigationElement}"
+                            Command="{Binding MoveToItemsPageCommand}" 
+                            CommandParameter="{Binding ElementName=MainContentFrame}">
+                            <StackPanel Style="{StaticResource HoverColorStackPanelStyle}">
+                                <Viewbox Height="24px" Width="24px" Margin="0 0 8 0">
+                                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Fill="{Binding Tag, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}">
+                                        <Path.Data>
+                                            <PathGeometry Figures="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" FillRule="Nonzero"/>
+                                        </Path.Data>
+                                    </Path>
+                                </Viewbox>
+                                <TextBlock Text="Items" Foreground="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Style="{StaticResource txt_NavigationElement}"/>
+                            </StackPanel>
+                        </Button>
+                        
+                        <Button 
+                            Style="{StaticResource bt_NavigationElement}"
+                            Command="{Binding MoveToHystoryPageCommand}" 
+                            CommandParameter="{Binding ElementName=MainContentFrame}">
+                            <StackPanel Style="{StaticResource HoverColorStackPanelStyle}">
+                                <Viewbox Height="24px" Width="24px" Margin="0 0 8 0">
+                                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Fill="{Binding Tag, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}">
+                                        <Path.Data>
+                                            <PathGeometry Figures="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z" FillRule="Nonzero"/>
+                                        </Path.Data>
+                                    </Path>
+                                </Viewbox>
+                                <TextBlock Text="Hystory" Foreground="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Style="{StaticResource txt_NavigationElement}"/>
+                            </StackPanel>
+                        </Button>
+                        
+                        <Button 
+                            Style="{StaticResource bt_NavigationElement}"
+                            Command="{Binding MoveToTypePageCommand}" 
+                            CommandParameter="{Binding ElementName=MainContentFrame}">
+                            <StackPanel Style="{StaticResource HoverColorStackPanelStyle}">
+                                <Viewbox Height="24px" Width="24px" Margin="0 0 8 0">
+                                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Fill="{Binding Tag, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}">
+                                        <Path.Data>
+                                            <PathGeometry Figures="M264.5 5.2c14.9-6.9 32.1-6.9 47 0l218.6 101c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 149.8C37.4 145.8 32 137.3 32 128s5.4-17.9 13.9-21.8L264.5 5.2zM476.9 209.6l53.2 24.6c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 277.8C37.4 273.8 32 265.3 32 256s5.4-17.9 13.9-21.8l53.2-24.6 152 70.2c23.4 10.8 50.4 10.8 73.8 0l152-70.2zm-152 198.2l152-70.2 53.2 24.6c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 405.8C37.4 401.8 32 393.3 32 384s5.4-17.9 13.9-21.8l53.2-24.6 152 70.2c23.4 10.8 50.4 10.8 73.8 0z" FillRule="Nonzero"/>
+                                        </Path.Data>
+                                    </Path>
+                                </Viewbox>
+                                <TextBlock Text="Types" Foreground="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Style="{StaticResource txt_NavigationElement}"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button 
+                            Style="{StaticResource bt_NavigationElement}"
+                            Command="{Binding MoveToManagerPageCommand}" 
+                            CommandParameter="{Binding ElementName=MainContentFrame}">
+                            <StackPanel Style="{StaticResource HoverColorStackPanelStyle}">
+                                <Viewbox Height="24px" Width="24px" Margin="0 0 8 0">
+                                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Fill="{Binding Tag, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}">
+                                        <Path.Data>
+                                            <PathGeometry Figures="M96 128a128 128 0 1 0 256 0A128 128 0 1 0 96 128zm94.5 200.2l18.6 31L175.8 483.1l-36-146.9c-2-8.1-9.8-13.4-17.9-11.3C51.9 342.4 0 405.8 0 481.3c0 17 13.8 30.7 30.7 30.7H162.5c0 0 0 0 .1 0H168 280h5.5c0 0 0 0 .1 0H417.3c17 0 30.7-13.8 30.7-30.7c0-75.5-51.9-138.9-121.9-156.4c-8.1-2-15.9 3.3-17.9 11.3l-36 146.9L238.9 359.2l18.6-31c6.4-10.7-1.3-24.2-13.7-24.2H224 204.3c-12.4 0-20.1 13.6-13.7 24.2z" FillRule="Nonzero"/>
+                                        </Path.Data>
+                                    </Path>
+                                </Viewbox>
+                                <TextBlock Text="Managers" Foreground="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Style="{StaticResource txt_NavigationElement}"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button
+                            Style="{StaticResource bt_NavigationElement}"
+                            Command="{Binding MoveToCompanyPageCommand}" 
+                            CommandParameter="{Binding ElementName=MainContentFrame}">
+                            <StackPanel Style="{StaticResource HoverColorStackPanelStyle}">
+                                <Viewbox Height="24px" Width="24px" Margin="0 0 8 0">
+                                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Fill="{Binding Tag, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}">
+                                        <Path.Data>
+                                            <PathGeometry Figures="M184 48H328c4.4 0 8 3.6 8 8V96H176V56c0-4.4 3.6-8 8-8zm-56 8V96H64C28.7 96 0 124.7 0 160v96H192 320 512V160c0-35.3-28.7-64-64-64H384V56c0-30.9-25.1-56-56-56H184c-30.9 0-56 25.1-56 56zM512 288H320v32c0 17.7-14.3 32-32 32H224c-17.7 0-32-14.3-32-32V288H0V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V288z" FillRule="Nonzero"/>
+                                        </Path.Data>
+                                    </Path>
+                                </Viewbox>
+                                <TextBlock Text="Companies" Foreground="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Style="{StaticResource txt_NavigationElement}"/>
+                            </StackPanel>
+                        </Button>
+                        
+                    </StackPanel>
+                </ScrollViewer>
+                <Frame Name="MainContentFrame" Grid.Row="1"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
