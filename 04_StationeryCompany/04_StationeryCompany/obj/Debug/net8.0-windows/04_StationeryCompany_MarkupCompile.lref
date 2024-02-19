@@ -1,8 +1,9 @@
-﻿
+﻿D:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
 FD:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\App.xaml;;
 FD:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\Components\ActionButton.xaml;;
 FD:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\Components\GridHeaderButton.xaml;;
 FD:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\MainWindow.xaml;;
+FD:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\MVVM\Insert\View\V_InsertItem.xaml;;
 FD:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\MVVM\Update\View\V_UpdateItem.xaml;;
 FD:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\MVVM\ViewElements\PageHeader.xaml;;
 FD:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\MVVM\ViewElements\View\V_Logo.xaml;;
@@ -14,5 +15,4 @@ FD:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\MVVM\View\V_Ite
 FD:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\MVVM\View\V_Main.xaml;;
 FD:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\MVVM\View\V_ManagerPage.xaml;;
 FD:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\MVVM\View\V_TypePage.xaml;;
-FD:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\MVVM\Insert\View\V_InsertItem.xaml;;
 

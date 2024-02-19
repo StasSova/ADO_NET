@@ -1,0 +1,62 @@
+﻿<Window x:Class="_05_Stock.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_05_Stock"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        xmlns:selector="clr-namespace:_05_Stock.DataTemplete"
+        xmlns:ViewModel="clr-namespace:_05_Stock">
+
+    <Window.DataContext>
+        <ViewModel:VM_MainWindow/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        
+        <!--<DataTemplate x:Key="TextBoxEditingTemplate">
+            <TextBox Text="{Binding Path=., Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </DataTemplate>
+
+        --><!-- Создаем экземпляр селектора шаблонов --><!--
+        <selector:CellEditingTemplateSelector x:Key="CellEditingTemplateSelector"
+                        TextBoxTemplate="{StaticResource TextBoxEditingTemplate}"
+            />-->
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <WrapPanel
+            Grid.Row="0"
+            Orientation="Horizontal">
+            <Button 
+                Content="Product"
+                Click="GetProductCommand"/>
+            <Button 
+                Content="Supplier"
+                Click="GetSupplierCommand"/>
+            <Button
+                Content="Type of Product"
+                Click="GetTypeCommand"/>
+            <Button
+                Content="Remove"
+                Click="Button_Click"/>
+            <Button
+                Content="Add"
+                Click="Button_Click_1"/>
+        </WrapPanel>
+
+        <DataGrid
+            Grid.Row="1"
+            Margin="16 32 16 8"
+            Name="DataGridView" 
+            ItemsSource="{Binding Table}"
+            SelectedItem="{Binding SelectedItem}"
+            CellEditEnding="DataGrid_CellEditEnding">
+        </DataGrid>
+    </Grid>
+</Window>

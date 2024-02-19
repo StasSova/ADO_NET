@@ -16,5 +16,5 @@ D:\Course_3_2\ADO_NET\04_StationeryCompany\04_StationeryCompany\App.xaml
 201-248266091
 Components\ActionButton.xaml;Components\GridHeaderButton.xaml;MainWindow.xaml;MVVM\Insert\View\V_InsertItem.xaml;MVVM\Update\View\V_UpdateItem.xaml;MVVM\ViewElements\PageHeader.xaml;MVVM\ViewElements\View\V_Logo.xaml;MVVM\ViewElements\View\V_LogOut.xaml;MVVM\ViewElements\View\V_User.xaml;MVVM\View\V_CompanyPage.xaml;MVVM\View\V_HystoryPage.xaml;MVVM\View\V_ItemPage.xaml;MVVM\View\V_Main.xaml;MVVM\View\V_ManagerPage.xaml;MVVM\View\V_TypePage.xaml;Resource\ColorStyle.xaml;Resource\Style.xaml;
 
-True
+False
 
