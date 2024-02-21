@@ -10,6 +10,8 @@ namespace _05_Stock.Interface
 {
     public interface IDataBaseCrud
     {
+
+
         string ConnectionString { get; set; }
     }
 }
