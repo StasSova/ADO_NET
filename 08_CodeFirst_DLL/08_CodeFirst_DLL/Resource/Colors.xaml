@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    
+    <SolidColorBrush x:Key="w_primaryTextColor">#EEEEEE</SolidColorBrush>
+    <SolidColorBrush x:Key="w_onHoverPrimaryTextColor">#F0EDCF</SolidColorBrush>
+
+    <SolidColorBrush x:Key="w_primaryBackgroundColor">#000000</SolidColorBrush>
+
+    <SolidColorBrush x:Key="w_primaryContainerColor">#222831</SolidColorBrush>
+    <SolidColorBrush x:Key="w_onHoverPrimaryContainerColor">#393E46</SolidColorBrush>
+    
+    
+</ResourceDictionary>

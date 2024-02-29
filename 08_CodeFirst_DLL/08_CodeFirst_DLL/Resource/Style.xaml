@@ -1,0 +1,73 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="ItemContainer" TargetType="StackPanel">
+        <!--<Setter Property="Margin" Value="0 4"/>-->
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.Setters>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Background" Value="{StaticResource w_onHoverPrimaryContainerColor}"/>
+                </Trigger.Setters>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ItemInformation" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource w_primaryTextColor}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Margin" Value="0 4 0 0"/>
+        <Setter Property="LineHeight" Value="30"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="HeaderInformation" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource w_primaryTextColor}"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style x:Key="bt_NavigationElement" TargetType="Button">
+        <Setter Property="Width" Value="auto"/>
+        <Setter Property="Margin" Value="0 4"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource w_primaryContainerColor}"/>
+        <Setter Property="Tag" Value="{DynamicResource w_primaryTextColor}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border 
+                        Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="5"
+                        SnapsToDevicePixels="True">     
+                        <ContentPresenter 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center" 
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                            RecognizesAccessKey="True"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Background" Value="{DynamicResource w_onHoverPrimaryContainerColor}"/>
+                <Setter Property="Tag" Value="{DynamicResource w_onHoverPrimaryTextColor}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="StackPanel" x:Key="HoverColorStackPanelStyle">
+        <Setter Property="Margin" Value="8 0"/>
+        <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+</ResourceDictionary>
