@@ -1,0 +1,82 @@
+﻿<Window x:Class="_09_AuthorsAndBooks_DataBaseFirst.View.BookDetail"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_09_AuthorsAndBooks_DataBaseFirst.View"
+            Title="{Binding Title}" 
+    MaxHeight="300" Height="250" MinHeight="250" 
+    MaxWidth="400" Width="350" MinWidth="300">
+
+    <Window.Resources>
+        <Style x:Key="FormLabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0 5"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="FormTextBoxStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0 5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+        </Style>
+        <Style x:Key="FormComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0 5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+        </Style>
+        <Style x:Key="FormButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="Margin" Value="25 10"/>
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#005C99"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#003366"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#F0F0F0" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="{Binding Title}" FontWeight="Bold" FontSize="18" Margin="0 0 0 10"/>
+
+        <Label Grid.Row="1" Content="Book Name:" Style="{StaticResource FormLabelStyle}"/>
+        <TextBox Grid.Row="1" Text="{Binding Book.Name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FormTextBoxStyle}"/>
+
+        <Label Grid.Row="2" Content="Author:" Style="{StaticResource FormLabelStyle}"/>
+        <ComboBox Grid.Row="2" ItemsSource="{Binding Authors}" SelectedItem="{Binding Book.Author, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Style="{StaticResource FormComboBoxStyle}"/>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10">
+            <Button Content="Save" Click="Button_Click"  Style="{StaticResource FormButtonStyle}"/>
+            <Button Content="Cancel" Click="Button_Click_1"  Style="{StaticResource FormButtonStyle}"/>
+        </StackPanel>
+    </Grid>
+</Window>

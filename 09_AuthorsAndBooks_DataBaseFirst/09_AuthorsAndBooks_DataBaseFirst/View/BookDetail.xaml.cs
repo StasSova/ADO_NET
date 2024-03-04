@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _09_AuthorsAndBooks_DataBaseFirst.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,15 +13,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace _08_CodeFirst_DLL.View
+namespace _09_AuthorsAndBooks_DataBaseFirst.View
 {
-    public partial class V_UP_Add_Part : Window
+    /// <summary>
+    /// Interaction logic for BookDetail.xaml
+    /// </summary>
+    public partial class BookDetail : Window
     {
-        public V_UP_Add_Part()
+        public BookDetail()
         {
             InitializeComponent();
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
@@ -29,7 +32,7 @@ namespace _08_CodeFirst_DLL.View
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            this.DialogResult= false;
+            this.DialogResult=false;
             this.Close();
         }
     }

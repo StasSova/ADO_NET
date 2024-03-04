@@ -12,11 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace _08_CodeFirst_DLL.View
+namespace _09_AuthorsAndBooks_DataBaseFirst.View
 {
-    public partial class V_UP_Add_Part : Window
+    /// <summary>
+    /// Interaction logic for AuthorDetail.xaml
+    /// </summary>
+    public partial class AuthorDetail : Window
     {
-        public V_UP_Add_Part()
+        public AuthorDetail()
         {
             InitializeComponent();
         }
@@ -29,7 +32,7 @@ namespace _08_CodeFirst_DLL.View
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            this.DialogResult= false;
+            this.DialogResult = false;
             this.Close();
         }
     }
