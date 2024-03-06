@@ -6,6 +6,9 @@ go
 use AuthorAndBook
 go
 
+select * from Books
+
+
 create table Authors(
 	[Id] int not null primary key identity(1,1),
 	[FullName] nvarchar(30) not null unique
