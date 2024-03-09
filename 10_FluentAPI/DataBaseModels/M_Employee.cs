@@ -10,6 +10,7 @@ namespace DataBaseModels
     {
         public string Name {  get; set; }
         public string Surname { get; set; }
+        public int PositionId { get; set; }
         public virtual M_Position Position { get; set; }
         public M_Employee() 
         {
@@ -17,11 +18,13 @@ namespace DataBaseModels
             Surname = "Surname";
             Position = new M_Position();
         }
-        public M_Employee(M_Employee employee) 
+        public M_Employee(M_Employee employee, bool withId = false) 
         {
+            if (withId) this.Id = employee.Id;
             this.Name = employee.Name;
             this.Surname = employee.Surname;
             this.Position = new M_Position(employee.Position);
+            this.PositionId = employee.PositionId;
         }
 
         public new object Clone()

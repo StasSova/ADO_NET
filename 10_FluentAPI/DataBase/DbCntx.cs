@@ -16,6 +16,7 @@ public class DbCntx : DbContext
     public DbCntx(DbContextOptions<DbCntx> options) : base(options)
     {
         // Ensure that the database exists and initialize data if needed
+        //Database.EnsureDeleted();
         if (Database.EnsureCreated())
         {
             // Add positions
@@ -50,7 +51,37 @@ public class DbCntx : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Define your model configurations here if needed
+        // Configure Employee entity
+        modelBuilder.Entity<M_Employee>()
+            .HasKey(e => e.Id);
+
+        modelBuilder.Entity<M_Employee>()
+            .Property(e => e.Name)
+            .IsRequired()
+            .HasMaxLength(30);
+
+        modelBuilder.Entity<M_Employee>()
+            .Property(e => e.Surname)
+            .IsRequired()
+            .HasMaxLength(30);
+
+        modelBuilder.Entity<M_Employee>()
+            .HasOne(e => e.Position)
+            .WithMany(p => p.Employees)
+            .HasForeignKey(e => e.PositionId);
+
+        // Configure Position entity
+        modelBuilder.Entity<M_Position>()
+            .HasKey(p => p.Id);
+
+        modelBuilder.Entity<M_Position>()
+            .Property(p => p.PositionName)
+            .IsRequired()
+            .HasMaxLength(30);
+
+        modelBuilder.Entity<M_Position>()
+            .HasIndex(p => p.PositionName)
+            .IsUnique();
     }
 
     private string GetRandomFirstName()

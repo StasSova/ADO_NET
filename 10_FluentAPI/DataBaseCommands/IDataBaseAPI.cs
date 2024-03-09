@@ -21,6 +21,7 @@ namespace DataBaseAPI
         Task<List<T>> Get<T>() where T : DbEntity;
         Task<List<T>> Get<T>(int page = 1, int entitiesPerPage = 10) where T : DbEntity;
         Task<List<TEntity>> Get<TEntity, TValue>(string propertyName, TValue propertyValue) where TEntity : DbEntity;
+        Task<List<TEntity>> Get<TEntity>(Dictionary<string, (object value, bool isExactMatch)> propertyFilters) where TEntity : DbEntity;
     }
 
 }

@@ -12,8 +12,10 @@ namespace DataBaseModels
         {
             PositionName = "New position";
         }
-        public M_Position(M_Position position)
+        public M_Position(M_Position position, bool withId = false)
         {
+            if (withId)
+                this.Id = position.Id;
             this.PositionName = position.PositionName;
             this.Employees = position.Employees;
         }

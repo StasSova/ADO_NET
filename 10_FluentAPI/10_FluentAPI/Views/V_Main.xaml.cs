@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _10_FluentAPI.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,33 @@ namespace _10_FluentAPI.Views
     /// </summary>
     public partial class V_Main : Window
     {
+        VM_Main m;
         public V_Main()
         {
             InitializeComponent();
+        }
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            m ??= (VM_Main)this.DataContext;
+            m.DeleteEmployeeCommand.Execute(this.ListBoxColl.SelectedValue);
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            m ??= (VM_Main)this.DataContext;
+            m.NotifySelectedEmployeePropertyChangedCommand.Execute(null);
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            m ??= (VM_Main)this.DataContext;
+            m.ChangeStateEmployeeToEditingCommand.Execute(this.ListBoxColl.SelectedValue);
+        }
+
+        private void txtNewPosition_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            m ??= (VM_Main)this.DataContext;
+            m.NotifySelectedPositionPropertyChangedCommand.Execute(null);
         }
     }
 }

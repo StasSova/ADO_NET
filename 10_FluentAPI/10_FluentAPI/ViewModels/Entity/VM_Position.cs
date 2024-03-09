@@ -19,14 +19,18 @@ namespace _10_FluentAPI.ViewModels.Entity
         {
             this.Position = position;
         }
-        public VM_Position(VM_Position position) 
+        public VM_Position(VM_Position position, bool withId = false) 
         {
-            this.Position = new M_Position(position.Position);
+            this.Position = new M_Position(position.Position, withId);
         }
         public string PositionName
         {
             get { return Position.PositionName; }
-            set {  Position.PositionName = value; OnPropertyChanged(nameof(PositionName)); }
+            set { Position.PositionName = value; OnPropertyChanged(nameof(PositionName)); }
+        }
+        public override string ToString() 
+        {
+            return PositionName;
         }
     }
 }

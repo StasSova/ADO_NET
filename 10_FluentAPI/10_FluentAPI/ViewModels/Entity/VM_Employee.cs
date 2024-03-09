@@ -15,13 +15,15 @@ namespace _10_FluentAPI.ViewModels.Entity
         {
             this.Employee = new M_Employee();
         }
-        public VM_Employee(VM_Employee employee) 
+        public VM_Employee(VM_Employee employee, bool withId = false) 
         {
-            this.Employee = new M_Employee(employee.Employee);
+            this.Employee = new M_Employee(employee.Employee, withId);
+            this.Position = employee.Position;
         }
         public VM_Employee(M_Employee employee)
         {
             this.Employee = employee;
+            this.Position = new(employee.Position);
         }
         public string Name 
         { 
@@ -33,10 +35,18 @@ namespace _10_FluentAPI.ViewModels.Entity
             get { return Employee.Surname; }
             set { Employee.Surname = value; OnPropertyChanged(nameof(Surname)); }
         }
-        public M_Position Position 
+
+        private VM_Position? pos;
+        public VM_Position Position 
         { 
-            get { return Employee.Position; }
-            set { Employee.Position = value; OnPropertyChanged( nameof(Position));}
+            get { return pos!; }
+            set 
+            { 
+                pos = value; 
+                Employee.Position = value.Position;
+                Employee.PositionId = value.Position.Id;
+                OnPropertyChanged( nameof(Position));
+            }
         }
     }
 }

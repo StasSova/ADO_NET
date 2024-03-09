@@ -4,9 +4,164 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_10_FluentAPI.Views"
+        xmlns:model="clr-namespace:_10_FluentAPI.ViewModels"
         mc:Ignorable="d"
-        Title="V_Main" Height="450" Width="800">
+        Title="Employees IT" Height="450" Width="800">
+    
+    <!--<Window.DataContext>
+        <model:VM_Main/>
+    </Window.DataContext>-->
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Menu --><!--
+        <Menu Grid.Row="0">
+            <MenuItem Header="Edit">
+                <MenuItem Header="Add Position" Command="{Binding AddPositionCommand}"/>
+                <MenuItem Header="Add Employee" Command="{Binding AddEmployeeCommand}"/>
+                <MenuItem Header="Delete Position" Command="{Binding DeletePositionCommand}"/>
+                <MenuItem Header="Delete Employee" Command="{Binding DeleteEmployeeCommand}"/>
+            </MenuItem>
+        </Menu>-->
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Left panel for filtering -->
+            <StackPanel Grid.Column="0" Margin="10" Grid.RowSpan="2">
+                <!-- Filter by Position -->
+                <DockPanel Margin="5 0" Width="auto">
+                    <CheckBox DockPanel.Dock="Right" IsChecked="{Binding FilterByPositionCheck, Mode=TwoWay}" Margin="5 0">
+                        <CheckBox.ToolTip>
+                            <ToolTip Content="Фильтровать по должности"/>
+                        </CheckBox.ToolTip>
+                    </CheckBox>
+                    <TextBlock DockPanel.Dock="Left" Text="Filter by Position" FontStyle="Italic" Foreground="Gray" Margin="5 0"/>
+                </DockPanel>
+                <ComboBox x:Name="cmbFilterPosition" Width="150" Margin="0 0 0 10"
+                    ItemsSource="{Binding Positions}" SelectedValue="{Binding FilterPosition, Mode=TwoWay}"/>
+
+                <!-- Filter by Name -->
+                <DockPanel Margin="5 0" Width="auto">
+                    <CheckBox DockPanel.Dock="Right" IsChecked="{Binding FilterNameFull, Mode=TwoWay}" Margin="5 0">
+                        <CheckBox.ToolTip>
+                            <ToolTip Content="Фильтровать по полному совпадению"/>
+                        </CheckBox.ToolTip>
+                    </CheckBox>
+                    <TextBlock DockPanel.Dock="Left" Text="Filter by Name" FontStyle="Italic" Foreground="Gray"/>
+                </DockPanel>
+                <TextBox x:Name="txtFilterName" Width="150" Margin="0 0 0 10" Text="{Binding FilterName, Mode=TwoWay}"/>
+
+                <!-- Filter by Surname -->
+                <DockPanel Margin="5 0" Width="auto">
+                    <CheckBox DockPanel.Dock="Right" IsChecked="{Binding FilterSurnameFull, Mode=TwoWay}" Margin="5 0">
+                        <CheckBox.ToolTip>
+                            <ToolTip Content="Фильтровать по полному совпадению"/>
+                        </CheckBox.ToolTip>
+                    </CheckBox>
+                    <TextBlock DockPanel.Dock="Left" Text="Filter by Surname" FontStyle="Italic" Foreground="Gray" Margin="5 0"/>
+                </DockPanel>
+
+                <TextBox x:Name="txtFilterSurname" Width="150" Margin="0 0 0 10" Text="{Binding FilterSurname, Mode=TwoWay}"/>
+
+                <!-- Button for clearing filters -->
+                <Button Content="Clear Filters" Width="100" Margin="0 10" Command="{Binding ClearFiltersCommand}"/>
+
+                <!-- Button for searching -->
+                <Button Content="Search" Width="100" Command="{Binding SearchCommand}"/>
+
+                <!-- Field and buttons for managing positions -->
+                <TextBlock Text="Manage Positions" FontStyle="Italic" Foreground="Gray" Margin="5 40 0 4"/>
+                <TextBox x:Name="txtNewPosition" Width="150" Margin="0 0 0 10" TextChanged="txtNewPosition_TextChanged" Text="{Binding SelectedPosition.PositionName, Mode=TwoWay}"/>
+
+                <!-- Buttons for position management -->
+                <StackPanel Orientation="Vertical" Margin="0 0 0 10">
+                    <Button Content="Add Position" Width="100" Margin="5" Command="{Binding AddPositionCommand}"/>
+                    <Button Content="Update Position" Width="100" Margin="5" Command="{Binding UpdatePositionCommand}"/>
+                    <Button Content="Delete Position" Width="100" Margin="5" Command="{Binding DeletePositionCommand}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Panel for editing selected employee -->
+            <StackPanel Grid.Column="1" Grid.Row="0" Margin="10">
+                <!-- Edit Employee header -->
+                <TextBlock Text="Edit Employee" FontWeight="Bold"/>
+
+                <!-- Name -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Name:" Margin="0 5 5 0"/>
+                    <TextBox Text="{Binding SelectedEmployee.Name}" LostFocus="TextBox_LostFocus" Margin="0 0 0 5" Grid.Column="1"/>
+                </Grid>
+
+                <!-- Surname -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Surname:" Margin="0 5 5 0"/>
+                    <TextBox Text="{Binding SelectedEmployee.Surname}" LostFocus="TextBox_LostFocus" Margin="0 0 0 5" Grid.Column="1"/>
+                </Grid>
+
+                <!-- Position -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Position:" Margin="0 5 5 0"/>
+                    <ComboBox ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedEmployee.Position}" LostFocus="TextBox_LostFocus" Margin="0 0 0 5" Grid.Column="1"/>
+                </Grid>
+
+                <!-- Buttons -->
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Update" Command="{Binding UpdateEmployeeCommand}" Margin="0 5 0 0"/>
+                    <Button Content="Add as new" Command="{Binding AddEmployeeCommand}" Margin="10 5 0 0"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Right panel for displaying employees -->
+            <ListBox x:Name="ListBoxColl" Grid.Column="1" Grid.Row="1" Margin="10" ItemsSource="{Binding Employees}" SelectionMode="Single" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Name}" FontWeight="Bold"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Surname}" Margin="10 0"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Position}" Margin="10 0"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Delete" Click="MenuItem_Click"/>
+                        <MenuItem Header="Update" Click="MenuItem_Click_1"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+                
+            </ListBox>
+        </Grid>
     </Grid>
 </Window>

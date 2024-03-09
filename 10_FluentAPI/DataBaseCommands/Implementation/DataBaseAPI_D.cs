@@ -31,8 +31,6 @@ public class DataBaseAPI_D : IDataBaseAPI
     }
     public async Task<bool> Add<T>(T entity) where T : DbEntity
     {
-        if (Context.Entry(entity).State == EntityState.Detached) 
-            Context.Attach(entity);
         await Context.Set<T>().AddAsync(entity);
         await Context.SaveChangesAsync();
         return true;
@@ -43,9 +41,8 @@ public class DataBaseAPI_D : IDataBaseAPI
         {
             T? _entity = await Context.Set<T>().FindAsync(id);
             if (_entity == null) return false;
-            T clonedEntity = (T)entity.Clone();
-            clonedEntity.Id = id;
-            Context.Entry(_entity).CurrentValues.SetValues(clonedEntity);
+            entity.Id = _entity.Id;
+            Context.Entry(_entity).CurrentValues.SetValues(entity);
             await Context.SaveChangesAsync();
             return true;
         }
@@ -59,7 +56,6 @@ public class DataBaseAPI_D : IDataBaseAPI
     {
         return await Update(oldEntity.Id, newEntity);
     }
-
     public Task<List<T>> Get<T>() where T : DbEntity 
     {
         return Task.FromResult<List<T>>([.. Context.Set<T>()]);
@@ -97,10 +93,43 @@ public class DataBaseAPI_D : IDataBaseAPI
         // возвращаем список отфильтрованных сущностей
         return Task.FromResult<List<TEntity>>([.. filteredEntities]);
     }
+    public Task<List<TEntity>> Get<TEntity>(Dictionary<string, (object value, bool isExactMatch)> propertyFilters) where TEntity : DbEntity
+    {
+        // Получаем набор сущностей типа TEntity из контекста базы данных
+        DbSet<TEntity> entities = Context.Set<TEntity>();
 
+        // Фильтруем сущности по заданным свойствам и их значениям
+        IQueryable<TEntity> filteredEntities = entities;
 
+        // Получаем информацию о типе TEntity
+        Type entityType = typeof(TEntity);
 
+        foreach (var filter in propertyFilters)
+        {
+            // Проверяем, существует ли свойство с заданным именем в типе TEntity
+            PropertyInfo? property = entityType.GetProperty(filter.Key);
 
+            if (property == null)
+            {
+                throw new ArgumentException($"Property '{filter.Key}' does not exist in entity '{entityType.Name}'.", nameof(propertyFilters));
+            }
+
+            // Применяем фильтрацию в зависимости от значения isExactMatch
+            if (property.PropertyType == typeof(string) && !filter.Value.isExactMatch)
+            {
+                string filterValue = (string)filter.Value.value;
+                filteredEntities = filteredEntities.Where(e => EF.Property<string>(e, filter.Key).Contains(filterValue));
+            }
+            else
+            {
+                filteredEntities = filteredEntities.Where(e => EF.Property<object>(e, filter.Key)!.Equals(filter.Value.value));
+            }
+        }
+
+        // Выполняем запрос к базе данных и получаем список отфильтрованных сущностей и
+        // возвращаем список отфильтрованных сущностей
+        return Task.FromResult<List<TEntity>>(filteredEntities.ToList());
+    }
 
 
 
