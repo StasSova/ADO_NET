@@ -31,6 +31,7 @@ public class DataBaseAPI_D : IDataBaseAPI
     }
     public async Task<bool> Add<T>(T entity) where T : DbEntity
     {
+        entity.Id = default(int);
         await Context.Set<T>().AddAsync(entity);
         await Context.SaveChangesAsync();
         return true;
@@ -130,6 +131,13 @@ public class DataBaseAPI_D : IDataBaseAPI
         // возвращаем список отфильтрованных сущностей
         return Task.FromResult<List<TEntity>>(filteredEntities.ToList());
     }
+
+
+
+
+
+
+
 
 
 

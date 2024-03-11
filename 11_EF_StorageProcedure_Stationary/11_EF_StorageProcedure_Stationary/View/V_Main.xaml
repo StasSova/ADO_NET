@@ -1,0 +1,336 @@
+﻿<Window x:Class="_11_EF_StorageProcedure_Stationary.View.V_Main"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_11_EF_StorageProcedure_Stationary.View"
+        xmlns:model="clr-namespace:_11_EF_StorageProcedure_Stationary.ViewModel"
+        mc:Ignorable="d"
+        Title="V_Main" Height="450" Width="800" MinWidth="1200">
+
+    <!--<Window.DataContext>
+        <model:VM_Main/>
+    </Window.DataContext>-->
+    
+    <Window.Resources>
+        <ResourceDictionary>
+
+            <!-- Стиль для TextBlock -->
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <!-- Стиль для TextBox -->
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="MinWidth" Value="50"/>
+                <Setter Property="MinHeight" Value="24"/>
+            </Style>
+
+            <!-- Стиль для ComboBox -->
+            <Style TargetType="ComboBox">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="MinWidth" Value="50"/>
+                <Setter Property="MinHeight" Value="24"/>
+            </Style>
+
+            <!-- Стиль для кнопок -->
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="MinWidth" Value="50"/>
+                <Setter Property="MinHeight" Value="24"/>
+            </Style>
+
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Menu Grid.Row="0">
+            <MenuItem Header="Items">
+                <MenuItem Header="Show All" Command="{Binding GetItemsCommand}"/>
+                
+                <MenuItem Header="С максимальным количеством единиц" Command="{Binding GetItemsWithMaxNumbersCommand}"/>
+                <MenuItem Header="С минимальным количеством единиц" Command="{Binding GetItemsWithMinNumbersCommand}"/>
+                <MenuItem Header="C минимальной себестоимостью единицы" Command="{Binding GetItemsWithMinCostPriceCommand}"/>
+                <MenuItem Header="С максимальной себестоимостью единицы" Command="{Binding GetItemsWithMaxCostPriceCommand}"/>
+            </MenuItem>
+        </Menu>
+        <TabControl Grid.Row="1">
+            <!-- Items -->
+            <TabItem Header="Items">
+                <Grid>
+                    <!-- Левая часть вкладки -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Name:"/>
+                        <TextBox TextChanged="TextBox_TextChanged" Text="{Binding SelectedItem.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Type:"/>
+                        <ComboBox SelectionChanged="ComboBox_SelectionChanged" ItemsSource="{Binding Types}" SelectedValue="{Binding SelectedItem.Type, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Count:"/>
+                        <TextBox TextChanged="TextBox_TextChanged" Text="{Binding SelectedItem.Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Cost Price:"/>
+                        <TextBox TextChanged="TextBox_TextChanged" Text="{Binding SelectedItem.CostPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Price:"/>
+                        <TextBox TextChanged="TextBox_TextChanged" Text="{Binding SelectedItem.Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!-- Кнопки -->
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Добавить" Command="{Binding AddItemCommand}"/>
+                            <Button Content="Удалить" Command="{Binding RemoveItemCommand}"/>
+                            <Button Content="Обновить" Command="{Binding UpdateItemCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Правая часть вкладки -->
+                    <Grid Grid.Column="1" Margin="5,5,-16,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Заголовки для колонок -->
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.2*"/>
+                                <ColumnDefinition Width="1.4*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="0.7*"/>
+                                <ColumnDefinition Width="0.7*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Заголовки -->
+                            <TextBlock Text="Name" FontWeight="Bold" Grid.Column="0"/>
+                            <TextBlock Text="Type" FontWeight="Bold" Grid.Column="1"/>
+                            <TextBlock Text="Count" FontWeight="Bold" Grid.Column="2"/>
+                            <TextBlock Text="Cost Price" FontWeight="Bold" Grid.Column="3"/>
+                            <TextBlock Text="Price" FontWeight="Bold" Grid.Column="4"/>
+                        </Grid>
+
+                        <!-- Коллекция объектов -->
+                        <ListBox Grid.Row="1" ItemsSource="{Binding Items, Mode=TwoWay}" SelectedItem="{Binding SelectedItem}" HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="1.4*"/>
+                                            <ColumnDefinition Width="0.5*"/>
+                                            <ColumnDefinition Width="0.7*"/>
+                                            <ColumnDefinition Width="0.7*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Отображение свойств объекта -->
+                                        <TextBlock Text="{Binding Name}" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding Type.Type}" Grid.Column="1"/>
+                                        <TextBlock Text="{Binding Count}" Grid.Column="2"/>
+                                        <TextBlock Text="{Binding CostPrice, StringFormat={}{0:C2}}" Grid.Column="3"/>
+                                        <TextBlock Text="{Binding Price, StringFormat={}{0:C2}}" Grid.Column="4"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+
+            <!-- Types -->
+            <TabItem Header="Types">
+                <Grid>
+                    <!-- Левая часть вкладки -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Type:"/>
+                        <TextBox TextChanged="Types_TextChanged" Text="{Binding SelectedType.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Count:"/>
+                        <TextBox TextChanged="Types_TextChanged" Text="{Binding SelectedType.Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!-- Кнопки -->
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Добавить" Command="{Binding AddTypeCommand}"/>
+                            <Button Content="Удалить" Command="{Binding RemoveTypeCommand}"/>
+                            <Button Content="Обновить" Command="{Binding UpdateTypeCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Правая часть вкладки -->
+                    <Grid Grid.Column="1" Margin="5,5,-16,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Заголовки для колонок -->
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.2*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Заголовки -->
+                            <TextBlock Text="Type" FontWeight="Bold" Grid.Column="0"/>
+                            <TextBlock Text="Count" FontWeight="Bold" Grid.Column="1"/>
+                        </Grid>
+
+                        <!-- Коллекция объектов -->
+                        <ListBox Grid.Row="1" ItemsSource="{Binding Types, Mode=TwoWay}" SelectedItem="{Binding SelectedType}" HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.2*"/>
+                                            <ColumnDefinition Width="0.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Type}" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding Count}" Grid.Column="1"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+
+            <!-- Managers -->
+            <TabItem Header="Managers">
+                <Grid>
+                    <!-- Левая часть вкладки -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="First Name:"/>
+                        <TextBox TextChanged="Managers_TextChanged" Text="{Binding SelectedManager.Fname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Last Name:"/>
+                        <TextBox TextChanged="Managers_TextChanged" Text="{Binding SelectedManager.Lname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!-- Кнопки -->
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Добавить" Command="{Binding AddManagerCommand}"/>
+                            <Button Content="Удалить" Command="{Binding RemoveManagerCommand}"/>
+                            <Button Content="Обновить" Command="{Binding UpdateManagerCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Правая часть вкладки -->
+                    <Grid Grid.Column="1" Margin="5,5,-16,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Заголовки для колонок -->
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Заголовки -->
+                            <TextBlock Text="First Name" FontWeight="Bold" Grid.Column="0"/>
+                            <TextBlock Text="Last Name" FontWeight="Bold" Grid.Column="1"/>
+                        </Grid>
+
+                        <!-- Коллекция объектов -->
+                        <ListBox Grid.Row="1" ItemsSource="{Binding Managers}" SelectedItem="{Binding SelectedManager}" HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Отображение свойств объекта -->
+                                        <TextBlock Text="{Binding Fname}" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding Lname}" Grid.Column="1"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+
+            <!-- Companies -->
+            <TabItem Header="Companies">
+                <Grid>
+                    <!-- Левая часть вкладки -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Name:"/>
+                        <TextBox TextChanged="Companies_TextChanged" Text="{Binding SelectedCompany.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!-- Кнопки -->
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Добавить" Command="{Binding AddCompanyCommand}"/>
+                            <Button Content="Удалить" Command="{Binding RemoveCompanyCommand}"/>
+                            <Button Content="Обновить" Command="{Binding UpdateCompanyCommand}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Правая часть вкладки -->
+                    <Grid Grid.Column="1" Margin="5,5,-16,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Заголовки для колонок -->
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Заголовки -->
+                            <TextBlock Text="Name" FontWeight="Bold" Grid.Column="0"/>
+                        </Grid>
+
+                        <!-- Коллекция объектов -->
+                        <ListBox Grid.Row="1" ItemsSource="{Binding Companies}" SelectedItem="{Binding SelectedCompany}" HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Отображение свойств объекта -->
+                                        <TextBlock Text="{Binding Name}" Grid.Column="0"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>

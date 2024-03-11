@@ -16,7 +16,7 @@ public class DbCntx : DbContext
     public DbCntx(DbContextOptions<DbCntx> options) : base(options)
     {
         // Ensure that the database exists and initialize data if needed
-        //Database.EnsureDeleted();
+        Database.EnsureDeleted();
         if (Database.EnsureCreated())
         {
             // Add positions

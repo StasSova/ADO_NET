@@ -85,7 +85,7 @@
 
                 <!-- Field and buttons for managing positions -->
                 <TextBlock Text="Manage Positions" FontStyle="Italic" Foreground="Gray" Margin="5 40 0 4"/>
-                <TextBox x:Name="txtNewPosition" Width="150" Margin="0 0 0 10" TextChanged="txtNewPosition_TextChanged" Text="{Binding SelectedPosition.PositionName, Mode=TwoWay}"/>
+                <TextBox x:Name="txtNewPosition" Width="150" Margin="0 0 0 10" Text="{Binding SelectedPosition.PositionName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <!-- Buttons for position management -->
                 <StackPanel Orientation="Vertical" Margin="0 0 0 10">

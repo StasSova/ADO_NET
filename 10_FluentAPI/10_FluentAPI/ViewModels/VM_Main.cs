@@ -113,8 +113,8 @@ namespace _10_FluentAPI.ViewModels
             try
             {
                 if (!CanAddEmployee()) return;
-                if (SelectedEmployee.Employee.Id != default)
-                    SelectedEmployee = new VM_Employee(SelectedEmployee);
+                //if (SelectedEmployee.Employee.Id != default)
+                //    SelectedEmployee = new VM_Employee(SelectedEmployee);
                 await DbAPI.Add<M_Employee>(SelectedEmployee.Employee);
                 MessageBox.Show("New employee added");
                 Employees.Insert(0,SelectedEmployee);
