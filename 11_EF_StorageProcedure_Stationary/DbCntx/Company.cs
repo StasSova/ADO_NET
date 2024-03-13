@@ -17,12 +17,12 @@ public partial class Company
             Name = company.Name;
 
             // Копируем коллекцию HistoryOfSells
-            HistoryOfSells = new List<HistoryOfSell>(company.HistoryOfSells.Select(h => new HistoryOfSell(h)));
+            //HistoryOfSells = new List<HistoryOfSell>(company.HistoryOfSells.Select(h => new HistoryOfSell(h)));
         }
     }
     public int Id { get; set; }
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<HistoryOfSell> HistoryOfSells { get; set; } = new List<HistoryOfSell>();
+    //public virtual ICollection<HistoryOfSell> HistoryOfSells { get; set; } = new List<HistoryOfSell>();
 }
