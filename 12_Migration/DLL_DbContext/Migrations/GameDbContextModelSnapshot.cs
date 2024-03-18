@@ -42,7 +42,7 @@ namespace DLL_DbContext.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("FeaturesOfGames");
+                    b.ToTable("FeaturesOfGames", (string)null);
                 });
 
             modelBuilder.Entity("DLL_Models.M_Game", b =>
@@ -65,7 +65,7 @@ namespace DLL_DbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
                 });
 
             modelBuilder.Entity("DLL_Models.M_GameStudio", b =>
@@ -82,7 +82,7 @@ namespace DLL_DbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Studios");
+                    b.ToTable("Studios", (string)null);
                 });
 
             modelBuilder.Entity("DLL_Models.M_GameStyle", b =>
@@ -102,7 +102,7 @@ namespace DLL_DbContext.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Styles");
+                    b.ToTable("Styles", (string)null);
                 });
 
             modelBuilder.Entity("M_FeaturesOfGameM_Game", b =>
