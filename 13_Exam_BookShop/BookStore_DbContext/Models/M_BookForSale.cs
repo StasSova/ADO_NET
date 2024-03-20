@@ -17,6 +17,7 @@ public class M_BookForSale : DbEntity
     public virtual M_Book Book { get; set; }
     public decimal CostPrice { get; set; }
     public decimal SellingPrice { get; set; }
+    public decimal Discount {  get; set; }
     public bool IsOnSale { get; set; }
 
     // Навигационное свойство для связи с M_ShoppingCart

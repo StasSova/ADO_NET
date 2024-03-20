@@ -110,6 +110,11 @@ public class BookStore_DbContext : DbContext
             .HasColumnType("decimal(18, 2)");
 
         modelBuilder.Entity<M_BookForSale>()
+            .Property(bfs => bfs.Discount)
+            .HasColumnType("decimal(3, 2)")
+            .HasDefaultValue(0);
+
+        modelBuilder.Entity<M_BookForSale>()
             .HasMany(bfs => bfs.ShoppingCarts)
             .WithMany(sc => sc.Books)
             .UsingEntity(j => j.ToTable("ShoppingCartBooks"));
