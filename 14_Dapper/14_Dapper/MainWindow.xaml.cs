@@ -23,6 +23,10 @@ namespace _14_Dapper
     public partial class MainWindow : Window
     {
         static string? connectionString;
+        private List<City> cities;
+        private List<Country> countries;
+        private List<Buyer> buyers;
+        private List<ProductSection> sections;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,6 +37,30 @@ namespace _14_Dapper
             builder.AddJsonFile("appsettings.json");
             var config = builder.Build();
             connectionString = config.GetConnectionString("DefaultConnection");
+            LoadComboBoxData();
+        }
+        private void LoadComboBoxData()
+        {
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+                // Загрузка списка городов
+                cities = db.Query<City>("SELECT * FROM City").ToList();
+
+                // Загрузка списка стран
+                countries = db.Query<Country>("SELECT * FROM Countries").ToList();
+
+                // Загрузка списка покупателей
+                buyers = db.Query<Buyer>("SELECT * FROM Buyer").ToList();
+
+                // Загрузка списка разделов
+                sections = db.Query<ProductSection>("SELECT * FROM ProductSection").ToList();
+            }
+
+            // Заполнение ComboBox данными
+            CityComboBox.ItemsSource = cities;
+            CountryComboBox.ItemsSource = countries;
+            BuyerComboBox.ItemsSource = buyers;
+            SectionComboBox.ItemsSource = sections;
         }
 
         // Логика для отображения всех покупателей
@@ -188,5 +216,93 @@ namespace _14_Dapper
                 }
             }
         }
+        // Отображение списка городов конкретной страны
+        private void ShowCitiesInCountry_Click(object sender, RoutedEventArgs e)
+        {
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+                var countryName = this.CitiesCountryTextBox.Text;
+
+                int countryId = db.QueryFirstOrDefault<int>(@"
+                    SELECT Id FROM Countries WHERE Name = @countryName
+                ", new { countryName });
+
+                if (countryId != 0)
+                {
+                    var cities = db.Query<City>(@"
+                        SELECT * FROM City WHERE CountrieId = @countryId
+                    ", new { countryId });
+                    this.InformationzBlock.ItemsSource = cities;
+                }
+                else
+                {
+                    MessageBox.Show($"Страна '{countryName}' не найдена.");
+                }
+            }
+        }
+        // Отображение списка разделов конкретного покупателя
+        private void ShowSectionsForBuyer_Click(object sender, RoutedEventArgs e)
+        {
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+                var buyerName = BuyerIdTextBox.Text; 
+
+                int buyerId = db.QueryFirstOrDefault<int>(@"
+                    SELECT Id FROM Buyer WHERE FullName = @buyerName
+                ", new { buyerName });
+
+                if (buyerId != 0)
+                {
+                    var sections = db.Query<ProductSection>(@"
+                        SELECT ps.* FROM ProductSection ps
+                        JOIN ShoppingCart sc ON ps.Id = sc.ProductSectionId
+                        WHERE sc.BuyerId = @buyerId
+                    ", new { buyerId });
+                    this.InformationzBlock.ItemsSource = sections;
+                }
+                else
+                {
+                    MessageBox.Show($"Покупатель '{buyerName}' не найден.");
+                }
+            }
+        }
+
+        //Отображение списка акционных товаров конкретного раздела:
+        private void ShowPromotionsForSection_Click(object sender, RoutedEventArgs e)
+        {
+            using (IDbConnection db = new SqlConnection(connectionString))
+            {
+                var sectionName = SectionIdTextBox.Text;
+
+                var sectionId = db.QueryFirstOrDefault<int>(@"
+                    SELECT Id FROM ProductSection WHERE Name = @sectionName
+                ", new { sectionName });
+
+                if (sectionId != 0)
+                {
+                    var promotions = db.Query<Product>(@"
+                        SELECT p.* 
+                        FROM Product p
+                        JOIN Promotion pr ON pr.ProductSectionId = p.ProductSectionId
+                        WHERE pr.Discount > 0 AND pr.ExpirationDate > GETDATE() AND p.ProductSectionId = @sectionId
+                    ", new { sectionId });
+
+                    if (promotions.Any())
+                    {
+                        this.InformationzBlock.ItemsSource = promotions;
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Для секции товаров '{sectionName}' нет акционных предложений.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show($"Секция товаров '{sectionName}' не найдена.");
+                }
+            }
+        }
+
+
     }
 }

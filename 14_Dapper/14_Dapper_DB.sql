@@ -49,9 +49,6 @@ create table Promotion(
 )
 go
 
-
-
-
 create table Buyer(
 	[Id] int primary key identity(1,1),
 	[FullName] nvarchar(100) check([FullName]<>''),
@@ -69,12 +66,19 @@ create table ShoppingCart(
 )
 go
 
+create table Product(
+ [Id] int primary key identity(1,1),
+ [Name] nvarchar(50),
+ [ProductSectionId] int foreign key references ProductSection([Id]),
+)
+go
 
-select ps.* from ProductSection ps
-join Promotion p on p.ProductSectionId = ps.Id
-where p.Discount > 0 and p.ExpirationDate > GETDATE()
 
-select * from Promotion
+--select ps.* from ProductSection ps
+--join Promotion p on p.ProductSectionId = ps.Id
+--where p.Discount > 0 and p.ExpirationDate > GETDATE()
+
+--select * from Promotion
 
 -- Добавление данных в таблицу Countries
 INSERT INTO Countries ([Name])
@@ -108,3 +112,9 @@ VALUES
     (1, 1, 2),
     (2, 2, 3),
     (3, 3, 1);
+
+
+INSERT INTO Product ([Name], [ProductSectionId])
+VALUES ('Laptop', 1),
+       ('T-Shirt', 2),
+       ('Novel', 3);
