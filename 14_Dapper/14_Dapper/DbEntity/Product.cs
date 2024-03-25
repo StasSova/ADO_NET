@@ -8,7 +8,13 @@ namespace _14_Dapper.DbEntity
 {
     public class Product
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public int ProductSectionId { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

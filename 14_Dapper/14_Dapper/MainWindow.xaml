@@ -19,26 +19,54 @@
             <Button Content="Отобразить email всех покупателей" Margin="10,10,10,0" Click="ShowAllCustomerEmails_Click"/>
             <Button Content="Отобразить разделы" Margin="10,10,10,0" Click="ShowAllSections_Click"/>
             <Button Content="Отобразить акционные товары" Margin="10,10,10,0" Click="ShowAllPromotions_Click"/>
+            <Button Content="Отобразить все акции" Margin="10,10,10,0" Click="ShowAllPromotions2_Click"/>
             <Button Content="Отобразить все города" Margin="10,10,10,0" Click="ShowAllCities_Click"/>
             <Button Content="Отобразить все страны" Margin="10,10,10,0" Click="ShowAllCountries_Click"/>
 
-                <Button Content="Отобразить покупателей из города" Margin="10,10,10,0" Click="ShowCustomersInCity_Click"/>
-                <ComboBox x:Name="CityComboBox" Margin="10,10,10,0" SelectionChanged="CityComboBox_SelectionChanged"/>
+            <Button Content="Отобразить покупателей из города" Margin="10,10,10,0" Click="ShowCustomersInCity_Click"/>
+            <ComboBox x:Name="CityComboBox" Margin="10,10,10,0"/>
+            <!--<ComboBox x:Name="CityComboBox" Margin="10,10,10,0" SelectionChanged="CityComboBox_SelectionChanged"/>-->
 
-                <Button Content="Отобразить покупателей из страны" Margin="10,10,10,0" Click="ShowCustomersInCountry_Click"/>
-                <ComboBox x:Name="CountryComboBox" Margin="10,10,10,0" SelectionChanged="CountryComboBox_SelectionChanged"/>
+            <Button Content="Отобразить покупателей из страны" Margin="10,10,10,0" Click="ShowCustomersInCountry_Click"/>
+            <ComboBox x:Name="CountryComboBox" Margin="10,10,10,0"/>
+            <!--<ComboBox x:Name="CountryComboBox" Margin="10,10,10,0" SelectionChanged="CountryComboBox_SelectionChanged"/>-->
 
-                <Button Content="Отобразить акции для страны" Margin="10,10,10,0" Click="ShowPromotionsInCountry_Click"/>
-                <ComboBox x:Name="PromotionsCountryComboBox" Margin="10,10,10,0" SelectionChanged="PromotionsCountryComboBox_SelectionChanged"/>
+            <Button Content="Отобразить акции для страны" Margin="10,10,10,0" Click="ShowPromotionsInCountry_Click"/>
+            <ComboBox x:Name="PromotionsCountryComboBox" Margin="10,10,10,0"/>
+            <!--<ComboBox x:Name="PromotionsCountryComboBox" Margin="10,10,10,0" SelectionChanged="PromotionsCountryComboBox_SelectionChanged"/>-->
 
-                <Button Content="Отобразить города для страны" Margin="10,10,10,0" Click="ShowCitiesInCountry_Click"/>
-                <ComboBox x:Name="CitiesCountryComboBox" Margin="10,10,10,0" SelectionChanged="CitiesCountryComboBox_SelectionChanged"/>
+            <Button Content="Отобразить города для страны" Margin="10,10,10,0" Click="ShowCitiesInCountry_Click"/>
+            <ComboBox x:Name="CitiesCountryComboBox" Margin="10,10,10,0"/>
+            <!--<ComboBox x:Name="CitiesCountryComboBox" Margin="10,10,10,0" SelectionChanged="CitiesCountryComboBox_SelectionChanged"/>-->
 
-                <Button Content="Отобразить разделы для покупателя" Click="ShowSectionsForBuyer_Click"/>
-                <ComboBox x:Name="BuyerComboBox" Margin="10,10,10,0" SelectionChanged="BuyerComboBox_SelectionChanged"/>
+            <Button Content="Отобразить разделы для покупателя" Margin="10,10,10,0" Click="ShowSectionsForBuyer_Click"/>
+            <ComboBox x:Name="BuyerComboBox" Margin="10,10,10,0"/>
+            <!--<ComboBox x:Name="BuyerComboBox" Margin="10,10,10,0" SelectionChanged="BuyerComboBox_SelectionChanged"/>-->
 
-                <Button Content="Отобразить акционные товары для раздела" Click="ShowPromotionsForSection_Click"/>
-                <ComboBox x:Name="SectionComboBox" Margin="10,10,10,0" SelectionChanged="SectionComboBox_SelectionChanged"/>
+            <Button Content="Отобразить акционные товары для раздела" Margin="10,10,10,0" Click="ShowPromotionsForSection_Click"/>
+            <ComboBox x:Name="SectionComboBox" Margin="10,10,10,0"/>
+            <!--<ComboBox x:Name="SectionComboBox" Margin="10,10,10,0" SelectionChanged="SectionComboBox_SelectionChanged"/>-->
+
+            
+                <Button Content="Добавить покупателя" Margin="10,10,10,0" Click="AddCustomer_Click"/>
+                <Button Content="Добавить страну" Margin="10,10,10,0" Click="AddCountry_Click"/>
+                <Button Content="Добавить город" Margin="10,10,10,0" Click="AddCity_Click"/>
+                <Button Content="Добавить раздел" Margin="10,10,10,0" Click="AddSection_Click"/>
+                <Button Content="Добавить акцию" Margin="10,10,10,0" Click="AddPromotion_Click"/>
+
+
+                <Button Content="Обновить выбранный покупателя" Margin="10" Click="UpdateSelectedCustomer_Click"/>
+                <Button Content="Обновить выбранную страну" Margin="10" Click="UpdateSelectedCountry_Click"/>
+                <Button Content="Обновить выбранный город" Margin="10" Click="UpdateSelectedCity_Click"/>
+                <Button Content="Обновить выбранный раздел" Margin="10" Click="UpdateSelectedSection_Click"/>
+                <Button Content="Обновить выбранную акцию" Margin="10" Click="UpdateSelectedPromotion_Click"/>
+
+
+                <Button Content="Удалить выбранного покупателя" Margin="10" Click="DeleteSelectedCustomer_Click"/>
+                <Button Content="Удалить выбранную страну" Margin="10" Click="DeleteSelectedCountry_Click"/>
+                <Button Content="Удалить выбранный город" Margin="10" Click="DeleteSelectedCity_Click"/>
+                <Button Content="Удалить выбранный раздел" Margin="10" Click="DeleteSelectedSection_Click"/>
+                <Button Content="Удалить выбранную акцию" Margin="10" Click="DeleteSelectedPromotion_Click"/>
             </StackPanel>
         </ScrollViewer>
 
