@@ -40,6 +40,18 @@ public partial class VM_Book : VM_Entity
                 OnPropertyChanged(nameof(Title));
             }
         }
+    }   
+    public string Image
+    {
+        get { return Model.Image; }
+        set
+        {
+            if (Model.Image != value)
+            {
+                Model.Image = value;
+                OnPropertyChanged(nameof(Image));
+            }
+        }
     }
     public string Description
     {
@@ -128,11 +140,6 @@ public partial class VM_Book : VM_Entity
                 OnPropertyChanged(nameof(Author));
             }
         }
-    }
-
-    public VM_BookForSale BookForSale 
-    {
-        get { return new(Model.BookForSale); }
     }
     public ObservableCollection<VM_Genre> Ganres
     {

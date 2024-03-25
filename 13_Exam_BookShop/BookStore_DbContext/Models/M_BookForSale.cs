@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace BookStore_DbContext.Models;
 
-public class M_BookForSale : DbEntity
+public class M_BookForSale : M_Book
 {
-    public M_BookForSale()
+    public M_BookForSale() : base()
     {
         ShoppingCarts = new List<M_ShoppingCart>();
     }
-
-    public int BookId { get; set; }
-    public virtual M_Book Book { get; set; }
     public decimal CostPrice { get; set; }
     public decimal SellingPrice { get; set; }
     public decimal Discount {  get; set; }

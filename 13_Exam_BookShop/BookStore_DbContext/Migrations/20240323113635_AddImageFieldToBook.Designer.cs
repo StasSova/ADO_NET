@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore_DbContext.Migrations
 {
     [DbContext(typeof(BookStore_DbContext))]
-    [Migration("20240318195805_InitialCreat")]
-    partial class InitialCreat
+    [Migration("20240323113635_AddImageFieldToBook")]
+    partial class AddImageFieldToBook
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,8 @@ namespace BookStore_DbContext.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.HasSequence("M_BookSequence");
 
             modelBuilder.Entity("BookStore_DbContext.Models.M_Author", b =>
                 {
@@ -56,9 +58,10 @@ namespace BookStore_DbContext.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("NEXT VALUE FOR [M_BookSequence]");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
 
                     b.Property<int?>("AuthorId")
                         .HasColumnType("int");
@@ -67,6 +70,10 @@ namespace BookStore_DbContext.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -94,34 +101,8 @@ namespace BookStore_DbContext.Migrations
                         .IsUnique();
 
                     b.ToTable("Books");
-                });
 
-            modelBuilder.Entity("BookStore_DbContext.Models.M_BookForSale", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("CostPrice")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.Property<bool>("IsOnSale")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("SellingPrice")
-                        .HasColumnType("decimal(18, 2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId")
-                        .IsUnique();
-
-                    b.ToTable("BooksForSale");
+                    b.UseTpcMappingStrategy();
                 });
 
             modelBuilder.Entity("BookStore_DbContext.Models.M_BookRelationship", b =>
@@ -295,6 +276,27 @@ namespace BookStore_DbContext.Migrations
                     b.ToTable("M_BookM_Ganre");
                 });
 
+            modelBuilder.Entity("BookStore_DbContext.Models.M_BookForSale", b =>
+                {
+                    b.HasBaseType("BookStore_DbContext.Models.M_Book");
+
+                    b.Property<decimal>("CostPrice")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.Property<decimal>("Discount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("decimal(3, 2)")
+                        .HasDefaultValue(0m);
+
+                    b.Property<bool>("IsOnSale")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("SellingPrice")
+                        .HasColumnType("decimal(18, 2)");
+
+                    b.ToTable("BooksForSale");
+                });
+
             modelBuilder.Entity("BookStore_DbContext.Models.M_Book", b =>
                 {
                     b.HasOne("BookStore_DbContext.Models.M_Author", "Author")
@@ -308,17 +310,6 @@ namespace BookStore_DbContext.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("PublishingHouse");
-                });
-
-            modelBuilder.Entity("BookStore_DbContext.Models.M_BookForSale", b =>
-                {
-                    b.HasOne("BookStore_DbContext.Models.M_Book", "Book")
-                        .WithOne("BookForSale")
-                        .HasForeignKey("BookStore_DbContext.Models.M_BookForSale", "BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("BookStore_DbContext.Models.M_BookRelationship", b =>
@@ -407,16 +398,7 @@ namespace BookStore_DbContext.Migrations
 
             modelBuilder.Entity("BookStore_DbContext.Models.M_Book", b =>
                 {
-                    b.Navigation("BookForSale")
-                        .IsRequired();
-
                     b.Navigation("RelatedBooks");
-                });
-
-            modelBuilder.Entity("BookStore_DbContext.Models.M_BookForSale", b =>
-                {
-                    b.Navigation("WarehouseItem")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("BookStore_DbContext.Models.M_PublishingHouse", b =>
@@ -432,6 +414,12 @@ namespace BookStore_DbContext.Migrations
             modelBuilder.Entity("BookStore_DbContext.Models.M_User", b =>
                 {
                     b.Navigation("ShoppingCarts");
+                });
+
+            modelBuilder.Entity("BookStore_DbContext.Models.M_BookForSale", b =>
+                {
+                    b.Navigation("WarehouseItem")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,7 @@
-﻿using System.Configuration;
+﻿using _13_Exam_BookShop.ViewModels.Pages.View;
+using _13_Exam_BookShop.ViewModels.Pages.ViewModel;
+using BookStore_DbContext.Models;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 
@@ -13,7 +16,11 @@ namespace _13_Exam_BookShop
         {
             base.OnStartup(e);
 
-            BookStore_DbContext.BookStore_DbContext a = new BookStore_DbContext.BookStore_DbContext();
+            var context = new VM_Main();
+            var window = new V_Main(context);
+            window.DataContext = context;
+            window.Show();
+        
         }
     }
 

@@ -45,8 +45,6 @@ public class BookStore_DbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
-
         modelBuilder.Entity<M_Book>()
             .HasOne(b => b.PublishingHouse)
             .WithMany(ph => ph.Books)
@@ -67,6 +65,9 @@ public class BookStore_DbContext : DbContext
         modelBuilder.Entity<M_Book>()
             .HasIndex(b => b.DateOfPress);
 
+        modelBuilder.Entity<M_Book>()
+            .UseTpcMappingStrategy();
+
         modelBuilder.Entity<M_Ganre>()
             .HasIndex(g => g.Genre)
             .IsUnique();
@@ -74,6 +75,8 @@ public class BookStore_DbContext : DbContext
         modelBuilder.Entity<M_User>()
             .HasIndex(u => u.Username)
             .IsUnique();
+
+
 
         modelBuilder.Entity<M_BookRelationship>()
             .HasKey(br => new { br.FirstBookId, br.SecondBookId });
@@ -94,11 +97,6 @@ public class BookStore_DbContext : DbContext
             .HasOne(bfs => bfs.WarehouseItem)
             .WithOne(wi => wi.BookForSale)
             .HasForeignKey<M_WarehouseItem>(wi => wi.BookForSaleId);
-
-        modelBuilder.Entity<M_BookForSale>()
-            .HasOne(bfs => bfs.Book)
-            .WithOne(b => b.BookForSale)
-            .HasForeignKey<M_BookForSale>(bfs => bfs.BookId);
 
 
         modelBuilder.Entity<M_BookForSale>()

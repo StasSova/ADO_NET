@@ -1,0 +1,34 @@
+﻿<Window x:Class="_14_Dapper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_14_Dapper"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+            <Button Content="Отобразить всех покупателей" Margin="10,10,10,0" Click="ShowAllCustomers_Click"/>
+            <Button Content="Отобразить email всех покупателей" Margin="10,10,10,0" Click="ShowAllCustomerEmails_Click"/>
+            <Button Content="Отобразить разделы" Margin="10,10,10,0" Click="ShowAllSections_Click"/>
+            <Button Content="Отобразить акционные товары" Margin="10,10,10,0" Click="ShowAllPromotions_Click"/>
+            <Button Content="Отобразить все города" Margin="10,10,10,0" Click="ShowAllCities_Click"/>
+            <Button Content="Отобразить все страны" Margin="10,10,10,0" Click="ShowAllCountries_Click"/>
+            <Button Content="Отобразить покупателей из города" Margin="10,10,10,0" Click="ShowCustomersInCity_Click"/>
+            <TextBox x:Name="CityNameTextBox" Margin="10,10,10,0"/>
+            <Button Content="Отобразить покупателей из страны" Margin="10,10,10,0" Click="ShowCustomersInCountry_Click"/>
+            <TextBox x:Name="CountryNameTextBox" Margin="10,10,10,0"/>
+            <Button Content="Отобразить акции для страны" Margin="10,10,10,0" Click="ShowPromotionsInCountry_Click"/>
+            <TextBox x:Name="PromotionsCountryTextBox" Margin="10,10,10,0"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <DataGrid x:Name="InformationzBlock"/>
+        </StackPanel>
+    </Grid>
+</Window>

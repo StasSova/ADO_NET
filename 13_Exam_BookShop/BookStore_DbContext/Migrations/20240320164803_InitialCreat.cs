@@ -11,6 +11,9 @@ namespace BookStore_DbContext.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateSequence(
+                name: "M_BookSequence");
+
             migrationBuilder.CreateTable(
                 name: "Authors",
                 columns: table => new
@@ -80,11 +83,28 @@ namespace BookStore_DbContext.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "M_BookM_Ganre",
+                columns: table => new
+                {
+                    BooksId = table.Column<int>(type: "int", nullable: false),
+                    GanresId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_M_BookM_Ganre", x => new { x.BooksId, x.GanresId });
+                    table.ForeignKey(
+                        name: "FK_M_BookM_Ganre_Genres_GanresId",
+                        column: x => x.GanresId,
+                        principalTable: "Genres",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR [M_BookSequence]"),
                     Title = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberOfPage = table.Column<int>(type: "int", nullable: false),
@@ -108,6 +128,57 @@ namespace BookStore_DbContext.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BooksForSale",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false, defaultValueSql: "NEXT VALUE FOR [M_BookSequence]"),
+                    Title = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NumberOfPage = table.Column<int>(type: "int", nullable: false),
+                    DateOfPress = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PublishingHouseId = table.Column<int>(type: "int", nullable: true),
+                    AuthorId = table.Column<int>(type: "int", nullable: true),
+                    CostPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SellingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Discount = table.Column<decimal>(type: "decimal(3,2)", nullable: false, defaultValue: 0m),
+                    IsOnSale = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BooksForSale", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BooksForSale_Authors_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Authors",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_BooksForSale_PublishingHouses_PublishingHouseId",
+                        column: x => x.PublishingHouseId,
+                        principalTable: "PublishingHouses",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookRelationships",
+                columns: table => new
+                {
+                    FirstBookId = table.Column<int>(type: "int", nullable: false),
+                    SecondBookId = table.Column<int>(type: "int", nullable: false),
+                    RelationshipTypeId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookRelationships", x => new { x.FirstBookId, x.SecondBookId });
+                    table.ForeignKey(
+                        name: "FK_BookRelationships_RelationshipTypes_RelationshipTypeId",
+                        column: x => x.RelationshipTypeId,
+                        principalTable: "RelationshipTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ShoppingCarts",
                 columns: table => new
                 {
@@ -127,79 +198,21 @@ namespace BookStore_DbContext.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookRelationships",
-                columns: table => new
-                {
-                    FirstBookId = table.Column<int>(type: "int", nullable: false),
-                    SecondBookId = table.Column<int>(type: "int", nullable: false),
-                    RelationshipTypeId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BookRelationships", x => new { x.FirstBookId, x.SecondBookId });
-                    table.ForeignKey(
-                        name: "FK_BookRelationships_Books_FirstBookId",
-                        column: x => x.FirstBookId,
-                        principalTable: "Books",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_BookRelationships_Books_SecondBookId",
-                        column: x => x.SecondBookId,
-                        principalTable: "Books",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_BookRelationships_RelationshipTypes_RelationshipTypeId",
-                        column: x => x.RelationshipTypeId,
-                        principalTable: "RelationshipTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BooksForSale",
+                name: "WarehouseItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BookId = table.Column<int>(type: "int", nullable: false),
-                    CostPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    SellingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsOnSale = table.Column<bool>(type: "bit", nullable: false)
+                    BookForSaleId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BooksForSale", x => x.Id);
+                    table.PrimaryKey("PK_WarehouseItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BooksForSale_Books_BookId",
-                        column: x => x.BookId,
-                        principalTable: "Books",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "M_BookM_Ganre",
-                columns: table => new
-                {
-                    BooksId = table.Column<int>(type: "int", nullable: false),
-                    GanresId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_M_BookM_Ganre", x => new { x.BooksId, x.GanresId });
-                    table.ForeignKey(
-                        name: "FK_M_BookM_Ganre_Books_BooksId",
-                        column: x => x.BooksId,
-                        principalTable: "Books",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_M_BookM_Ganre_Genres_GanresId",
-                        column: x => x.GanresId,
-                        principalTable: "Genres",
+                        name: "FK_WarehouseItems_BooksForSale_BookForSaleId",
+                        column: x => x.BookForSaleId,
+                        principalTable: "BooksForSale",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -224,26 +237,6 @@ namespace BookStore_DbContext.Migrations
                         name: "FK_ShoppingCartBooks_ShoppingCarts_ShoppingCartsId",
                         column: x => x.ShoppingCartsId,
                         principalTable: "ShoppingCarts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "WarehouseItems",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BookForSaleId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WarehouseItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_WarehouseItems_BooksForSale_BookForSaleId",
-                        column: x => x.BookForSaleId,
-                        principalTable: "BooksForSale",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -285,9 +278,29 @@ namespace BookStore_DbContext.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_BooksForSale_BookId",
+                name: "IX_BooksForSale_AuthorId",
                 table: "BooksForSale",
-                column: "BookId",
+                column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BooksForSale_DateOfPress",
+                table: "BooksForSale",
+                column: "DateOfPress");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BooksForSale_NumberOfPage",
+                table: "BooksForSale",
+                column: "NumberOfPage");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BooksForSale_PublishingHouseId",
+                table: "BooksForSale",
+                column: "PublishingHouseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BooksForSale_Title",
+                table: "BooksForSale",
+                column: "Title",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -346,6 +359,7 @@ namespace BookStore_DbContext.Migrations
                     { "Herman", "Melville", new DateTime(1819, 8, 1) },
                     { "Franz", "Kafka", new DateTime(1883, 7, 3) }
                 });
+
 
             // Заполнение таблицы PublishingHouses
             migrationBuilder.InsertData(
@@ -428,194 +442,103 @@ namespace BookStore_DbContext.Migrations
                 });
 
 
-            // Заполнение таблицы Books
-            migrationBuilder.InsertData(
-                table: "Books",
-                columns: new[] { "Title", "Description", "NumberOfPage", "DateOfPress", "PublishingHouseId", "AuthorId" },
-                values: new object[,]
-                {
-                    // George Orwell
-                    { "1984", "A dystopian novel by George Orwell", 328, new DateTime(1949, 6, 8), 1, 3 },
-                    { "Animal Farm", "An allegorical novella by George Orwell", 141, new DateTime(1945, 8, 17), 1, 3 },
-                    { "Keep the Aspidistra Flying", "A novel by George Orwell", 302, new DateTime(1936, 4, 20), 1, 3 },
-                    { "Homage to Catalonia", "A memoir by George Orwell", 319, new DateTime(1938, 4, 25), 1, 3 },
 
-                    // Leo Tolstoy
-                    { "War and Peace", "An epic novel by Leo Tolstoy", 1225, new DateTime(1869, 1, 1), 2, 4 },
-                    { "Anna Karenina", "A realist novel by Leo Tolstoy", 964, new DateTime(1877, 1, 1), 2, 4 },
-                    { "Resurrection", "A novel by Leo Tolstoy", 510, new DateTime(1899, 1, 1), 2, 4 },
-                    { "The Death of Ivan Ilyich", "A novella by Leo Tolstoy", 80, new DateTime(1886, 1, 1), 2, 4 },
-
-                    // Jane Austen
-                    { "Pride and Prejudice", "A romantic novel by Jane Austen", 279, new DateTime(1813, 1, 28), 3, 5 },
-                    { "Sense and Sensibility", "A romantic novel by Jane Austen", 409, new DateTime(1811, 10, 30), 3, 5 },
-                    { "Emma", "A novel by Jane Austen", 474, new DateTime(1815, 1, 1), 3, 5 },
-                    { "Mansfield Park", "A novel by Jane Austen", 507, new DateTime(1814, 1, 1), 3, 5 },
-
-                    // Ernest Hemingway
-                    { "The Old Man and the Sea", "A novel by Ernest Hemingway", 127, new DateTime(1952, 9, 1), 4, 6 },
-                    { "For Whom the Bell Tolls", "A novel by Ernest Hemingway", 480, new DateTime(1940, 10, 21), 4, 6 },
-                    { "A Farewell to Arms", "A novel by Ernest Hemingway", 332, new DateTime(1929, 9, 27), 4, 6 },
-                    { "The Sun Also Rises", "A novel by Ernest Hemingway", 251, new DateTime(1926, 10, 22), 4, 6 },
-
-                });
-
-            // Заполнение таблицы Books
-            migrationBuilder.InsertData(
-                table: "Books",
-                columns: new[] { "Title", "Description", "NumberOfPage", "DateOfPress", "PublishingHouseId", "AuthorId" },
-                values: new object[,]
-                {
-                    // Fyodor Dostoevsky
-                    { "Crime and Punishment", "A novel by Fyodor Dostoevsky", 551, new DateTime(1866, 12, 22), 5, 7 },
-                    { "The Brothers Karamazov", "A novel by Fyodor Dostoevsky", 796, new DateTime(1880, 11, 6), 5, 7 },
-                    { "The Idiot", "A novel by Fyodor Dostoevsky", 667, new DateTime(1869, 1, 1), 5, 7 },
-                    { "The Gambler", "A novella by Fyodor Dostoevsky", 206, new DateTime(1867, 1, 1), 5, 7 },
-
-                    // Mark Twain
-                    { "The Adventures of Tom Sawyer", "A novel by Mark Twain", 219, new DateTime(1876, 12, 1), 6, 8 },
-                    { "Adventures of Huckleberry Finn", "A novel by Mark Twain", 366, new DateTime(1884, 12, 10), 6, 8 },
-                    { "The Prince and the Pauper", "A novel by Mark Twain", 217, new DateTime(1881, 12, 1), 6, 8 },
-                    { "A Connecticut Yankee in King Arthur's Court", "A novel by Mark Twain", 453, new DateTime(1889, 12, 18), 6, 8 },
-
-                    // Charles Dickens
-                    { "A Tale of Two Cities", "A novel by Charles Dickens", 448, new DateTime(1859, 11, 26), 7, 9 },
-                    { "Great Expectations", "A novel by Charles Dickens", 544, new DateTime(1861, 8, 1), 7, 9 },
-                    { "David Copperfield", "A novel by Charles Dickens", 882, new DateTime(1850, 5, 1), 7, 9 },
-                    { "Oliver Twist", "A novel by Charles Dickens", 554, new DateTime(1837, 11, 1), 7, 9 },
-
-                    // Gabriel García Márquez
-                    { "One Hundred Years of Solitude", "A novel by Gabriel García Márquez", 417, new DateTime(1967, 5, 30), 8, 10 },
-                    { "Love in the Time of Cholera", "A novel by Gabriel García Márquez", 348, new DateTime(1985, 1, 8), 8, 10 },
-                    { "Chronicle of a Death Foretold", "A novella by Gabriel García Márquez", 120, new DateTime(1981, 1, 7), 8, 10 },
-                    { "Love and Other Demons", "A novel by Gabriel García Márquez", 147, new DateTime(1994, 3, 22), 8, 10 },
-
-                });
-
-
-            // Заполнение таблицы Books
-            migrationBuilder.InsertData(
-                table: "Books",
-                columns: new[] { "Title", "Description", "NumberOfPage", "DateOfPress", "PublishingHouseId", "AuthorId" },
-                values: new object[,]
-                {
-                    // J.R.R. Tolkien
-                    { "The Hobbit", "A fantasy novel by J.R.R. Tolkien", 310, new DateTime(1937, 9, 21), 12, 13 },
-                    { "The Lord of the Rings", "A fantasy novel by J.R.R. Tolkien", 1178, new DateTime(1954, 7, 29), 12, 13 },
-                    { "The Silmarillion", "A fantasy novel by J.R.R. Tolkien", 365, new DateTime(1977, 9, 15), 12, 13 },
-                    { "The Children of Húrin", "A fantasy novel by J.R.R. Tolkien", 313, new DateTime(2007, 4, 17), 12, 13 },
-
-                    // Herman Melville
-                    { "Moby-Dick", "A novel by Herman Melville", 641, new DateTime(1851, 10, 18), 13, 14 },
-                    { "Bartleby, the Scrivener", "A novella by Herman Melville", 64, new DateTime(1853, 11, 14), 13, 14 },
-                    { "Pierre; or, The Ambiguities", "A novel by Herman Melville", 609, new DateTime(1852, 2, 17), 13, 14 },
-                    { "Israel Potter: His Fifty Years of Exile", "A novel by Herman Melville", 346, new DateTime(1855, 2, 1), 13, 14 },
-
-                    // Franz Kafka
-                    { "The Metamorphosis", "A novella by Franz Kafka", 44, new DateTime(1915, 10, 15), 14, 15 },
-                    { "The Trial", "A novel by Franz Kafka", 213, new DateTime(1925, 4, 26), 14, 15 },
-                    { "A Hunger Artist", "A short story by Franz Kafka", 32, new DateTime(1924, 10, 11), 14, 15 },
-                    { "The Castle", "A novel by Franz Kafka", 352, new DateTime(1926, 4, 20), 14, 15 }
-                });
-
-            // Заполнение таблицы Books
-            migrationBuilder.InsertData(
-                table: "Books",
-                columns: new[] { "Title", "Description", "NumberOfPage", "DateOfPress", "PublishingHouseId", "AuthorId" },
-                values: new object[,]
-                {
-                    // Agatha Christie
-                    { "Murder on the Orient Express", "A mystery novel by Agatha Christie", 322, new DateTime(1934, 1, 1), 9, 11 },
-                    { "The Murder of Roger Ackroyd", "A mystery novel by Agatha Christie", 312, new DateTime(1926, 6, 1), 9, 11 },
-                    { "And Then There Were None", "A mystery novel by Agatha Christie", 264, new DateTime(1939, 11, 6), 9, 11 },
-                    { "Death on the Nile", "A mystery novel by Agatha Christie", 288, new DateTime(1937, 11, 1), 9, 11 },
-
-                    // Toni Morrison
-                    { "Beloved", "A novel by Toni Morrison", 321, new DateTime(1987, 9, 2), 10, 12 },
-                    { "Song of Solomon", "A novel by Toni Morrison", 337, new DateTime(1977, 11, 1), 10, 12 },
-                    { "Sula", "A novel by Toni Morrison", 174, new DateTime(1973, 11, 1), 10, 12 },
-                    { "Tar Baby", "A novel by Toni Morrison", 318, new DateTime(1981, 1, 1), 10, 12 },
-
-                    // Haruki Murakami
-                    { "Norwegian Wood", "A novel by Haruki Murakami", 296, new DateTime(1987, 9, 4), 11, 13 },
-                    { "Kafka on the Shore", "A novel by Haruki Murakami", 467, new DateTime(2002, 9, 12), 11, 13 },
-                    { "Colorless Tsukuru Tazaki and His Years of Pilgrimage", "A novel by Haruki Murakami", 386, new DateTime(2013, 4, 12), 11, 13 },
-                    { "1Q84", "A novel by Haruki Murakami", 1157, new DateTime(2009, 5, 29), 11, 13 },
-
-                    // Virginia Woolf
-                    { "To the Lighthouse", "A novel by Virginia Woolf", 209, new DateTime(1927, 5, 5), 12, 14 },
-                    { "Mrs Dalloway", "A novel by Virginia Woolf", 194, new DateTime(1925, 5, 14), 12, 14 },
-                    { "Orlando", "A novel by Virginia Woolf", 354, new DateTime(1928, 10, 11), 12, 14 },
-                    { "Flush: A Biography", "A novel by Virginia Woolf", 224, new DateTime(1933, 1, 1), 12, 14 },
-
-                });
             // Заполнение таблицы BooksForSale
             migrationBuilder.InsertData(
                 table: "BooksForSale",
-                columns: new[] { "BookId", "CostPrice", "SellingPrice", "IsOnSale" },
+                columns: new[] { "Title", "Description", "NumberOfPage", "DateOfPress", "PublishingHouseId", "AuthorId", "CostPrice", "SellingPrice", "Discount", "IsOnSale" },
                 values: new object[,]
                 {
-                    // Заполнение цен и информации о продаже для каждой книги
-                    { 1, 10.99m, 19.99m, true },
-                    { 2, 12.99m, 24.99m, true },
-                    { 3, 9.99m, 18.99m, true },
-                    { 4, 11.99m, 21.99m, true },
-                    { 5, 14.99m, 27.99m, true },
-                    { 6, 13.99m, 26.99m, true },
-                    { 7, 8.99m, 17.99m, true },
-                    { 8, 10.99m, 19.99m, true },
-                    { 9, 12.99m, 24.99m, true },
-                    { 10, 9.99m, 18.99m, true },
-                    { 11, 11.99m, 21.99m, true },
-                    { 12, 14.99m, 27.99m, true },
-                    { 13, 13.99m, 26.99m, true },
-                    { 14, 8.99m, 17.99m, true },
-                    { 15, 10.99m, 19.99m, true },
-                    { 16, 12.99m, 24.99m, true },
-                    { 17, 9.99m, 18.99m, true },
-                    { 18, 11.99m, 21.99m, true },
-                    { 19, 14.99m, 27.99m, true },
-                    { 20, 13.99m, 26.99m, true },
-                    { 21, 8.99m, 17.99m, true },
-                    { 22, 10.99m, 19.99m, true },
-                    { 23, 12.99m, 24.99m, true },
-                    { 24, 9.99m, 18.99m, true },
-                    { 25, 11.99m, 21.99m, true },
-                    { 26, 14.99m, 27.99m, true },
-                    { 27, 13.99m, 26.99m, true },
-                    { 28, 8.99m, 17.99m, true },
-                    { 29, 10.99m, 19.99m, true },
-                    { 30, 12.99m, 24.99m, true },
-                    { 31, 9.99m, 18.99m, true },
-                    { 32, 11.99m, 21.99m, true },
-                    { 33, 14.99m, 27.99m, true },
-                    { 34, 13.99m, 26.99m, true },
-                    { 35, 8.99m, 17.99m, true },
-                    { 36, 10.99m, 19.99m, true },
-                    { 37, 12.99m, 24.99m, true },
-                    { 38, 9.99m, 18.99m, true },
-                    { 39, 11.99m, 21.99m, true },
-                    { 40, 14.99m, 27.99m, true },
-                    { 41, 13.99m, 26.99m, true },
-                    { 42, 8.99m, 17.99m, true },
-                    { 43, 10.99m, 19.99m, true },
-                    { 44, 12.99m, 24.99m, true },
-                    { 45, 9.99m, 18.99m, true },
-                    { 46, 11.99m, 21.99m, true },
-                    { 47, 14.99m, 27.99m, true },
-                    { 48, 13.99m, 26.99m, true },
-                    { 49, 10.99m, 19.99m, true },
-                    { 50, 12.99m, 24.99m, true },
-                    { 51, 9.99m, 18.99m, true },
-                    { 52, 11.99m, 21.99m, true },
-                    { 53, 14.99m, 27.99m, true },
-                    { 54, 13.99m, 26.99m, true },
-                    { 55, 8.99m, 17.99m, true },
-                    { 56, 10.99m, 19.99m, true },
-                    { 57, 12.99m, 24.99m, true },
-                    { 58, 9.99m, 18.99m, true },
-                    { 59, 11.99m, 21.99m, true },
-                    { 60, 14.99m, 27.99m, true }
+                    // George Orwell
+                    { "1984", "A dystopian novel by George Orwell", 328, new DateTime(1949, 6, 8), 1, 3, 10.99m, 19.99m, 0m, true },
+                    { "Animal Farm", "An allegorical novella by George Orwell", 141, new DateTime(1945, 8, 17), 1, 3, 12.99m, 24.99m, 0m, true },
+                    { "Keep the Aspidistra Flying", "A novel by George Orwell", 302, new DateTime(1936, 4, 20), 1, 3, 9.99m, 18.99m, 0m, true },
+                    { "Homage to Catalonia", "A memoir by George Orwell", 319, new DateTime(1938, 4, 25), 1, 3, 11.99m, 21.99m, 0m, true },
+
+                    // Leo Tolstoy
+                    { "War and Peace", "An epic novel by Leo Tolstoy", 1225, new DateTime(1869, 1, 1), 2, 4, 14.99m, 27.99m, 0m, true },
+                    { "Anna Karenina", "A realist novel by Leo Tolstoy", 964, new DateTime(1877, 1, 1), 2, 4, 13.99m, 26.99m, 0m, true },
+                    { "Resurrection", "A novel by Leo Tolstoy", 510, new DateTime(1899, 1, 1), 2, 4, 8.99m, 17.99m, 0m, true },
+                    { "The Death of Ivan Ilyich", "A novella by Leo Tolstoy", 80, new DateTime(1886, 1, 1), 2, 4, 10.99m, 19.99m, 0m, true },
+
+                    // Jane Austen
+                    { "Pride and Prejudice", "A romantic novel by Jane Austen", 279, new DateTime(1813, 1, 28), 3, 5, 12.99m, 24.99m, 0m, true },
+                    { "Sense and Sensibility", "A romantic novel by Jane Austen", 409, new DateTime(1811, 10, 30), 3, 5, 9.99m, 18.99m, 0m, true },
+                    { "Emma", "A novel by Jane Austen", 474, new DateTime(1815, 1, 1), 3, 5, 11.99m, 21.99m, 0m, true },
+                    { "Mansfield Park", "A novel by Jane Austen", 507, new DateTime(1814, 1, 1), 3, 5, 14.99m, 27.99m, 0m, true },
+
+                    // Ernest Hemingway
+                    { "The Old Man and the Sea", "A novel by Ernest Hemingway", 127, new DateTime(1952, 9, 1), 4, 6, 13.99m, 26.99m, 0m, true },
+                    { "For Whom the Bell Tolls", "A novel by Ernest Hemingway", 480, new DateTime(1940, 10, 21), 4, 6, 8.99m, 17.99m, 0m, true },
+                    { "A Farewell to Arms", "A novel by Ernest Hemingway", 332, new DateTime(1929, 9, 27), 4, 6, 10.99m, 19.99m, 0m, true },
+                    { "The Sun Also Rises", "A novel by Ernest Hemingway", 251, new DateTime(1926, 10, 22), 4, 6, 12.99m, 24.99m, 0m, true },
+
+                    // Fyodor Dostoevsky
+                    { "Crime and Punishment", "A novel by Fyodor Dostoevsky", 551, new DateTime(1866, 12, 22), 5, 7, 9.99m, 18.99m, 0m, true },
+                    { "The Brothers Karamazov", "A novel by Fyodor Dostoevsky", 796, new DateTime(1880, 11, 6), 5, 7, 11.99m, 21.99m, 0m, true },
+                    { "The Idiot", "A novel by Fyodor Dostoevsky", 667, new DateTime(1869, 1, 1), 5, 7, 14.99m, 27.99m, 0m, true },
+                    { "The Gambler", "A novella by Fyodor Dostoevsky", 206, new DateTime(1867, 1, 1), 5, 7, 13.99m, 26.99m, 0m, true },
+
+                    // Mark Twain
+                    { "The Adventures of Tom Sawyer", "A novel by Mark Twain", 219, new DateTime(1876, 12, 1), 6, 8, 8.99m, 17.99m, 0m, true },
+                    { "Adventures of Huckleberry Finn", "A novel by Mark Twain", 366, new DateTime(1884, 12, 10), 6, 8, 10.99m, 19.99m, 0m, true },
+                    { "The Prince and the Pauper", "A novel by Mark Twain", 217, new DateTime(1881, 12, 1), 6, 8, 12.99m, 24.99m, 0m, true },
+                    { "A Connecticut Yankee in King Arthur's Court", "A novel by Mark Twain", 453, new DateTime(1889, 12, 18), 6, 8, 9.99m, 18.99m, 0m, true },
+
+                    // Charles Dickens
+                    { "A Tale of Two Cities", "A novel by Charles Dickens", 448, new DateTime(1859, 11, 26), 7, 9, 11.99m, 21.99m, 0m, true },
+                    { "Great Expectations", "A novel by Charles Dickens", 544, new DateTime(1861, 8, 1), 7, 9, 14.99m, 27.99m, 0m, true },
+                    { "David Copperfield", "A novel by Charles Dickens", 882, new DateTime(1850, 5, 1), 7, 9, 13.99m, 26.99m, 0m, true },
+                    { "Oliver Twist", "A novel by Charles Dickens", 554, new DateTime(1837, 11, 1), 7, 9, 8.99m, 17.99m, 0m, true },
+
+                    // Gabriel García Márquez
+                    { "One Hundred Years of Solitude", "A novel by Gabriel García Márquez", 417, new DateTime(1967, 5, 30), 8, 10, 10.99m, 19.99m, 0m, true },
+                    { "Love in the Time of Cholera", "A novel by Gabriel García Márquez", 348, new DateTime(1985, 1, 8), 8, 10, 12.99m, 24.99m, 0m, true },
+                    { "Chronicle of a Death Foretold", "A novella by Gabriel García Márquez", 120, new DateTime(1981, 1, 7), 8, 10, 9.99m, 18.99m, 0m, true },
+                    { "Love and Other Demons", "A novel by Gabriel García Márquez", 147, new DateTime(1994, 3, 22), 8, 10, 11.99m, 21.99m, 0m, true },
+
+                    // J.R.R. Tolkien
+                    { "The Hobbit", "A fantasy novel by J.R.R. Tolkien", 310, new DateTime(1937, 9, 21), 12, 13, 14.99m, 27.99m, 0m, true },
+                    { "The Lord of the Rings", "A fantasy novel by J.R.R. Tolkien", 1178, new DateTime(1954, 7, 29), 12, 13, 13.99m, 26.99m, 0m, true },
+                    { "The Silmarillion", "A fantasy novel by J.R.R. Tolkien", 365, new DateTime(1977, 9, 15), 12, 13, 8.99m, 17.99m, 0m, true },
+                    { "The Children of Húrin", "A fantasy novel by J.R.R. Tolkien", 313, new DateTime(2007, 4, 17), 12, 13, 10.99m, 19.99m, 0m, true },
+
+                    // Herman Melville
+                    { "Moby-Dick", "A novel by Herman Melville", 641, new DateTime(1851, 10, 18), 13, 14, 12.99m, 24.99m, 0m, true },
+                    { "Bartleby, the Scrivener", "A novella by Herman Melville", 64, new DateTime(1853, 11, 14), 13, 14, 9.99m, 18.99m, 0m, true },
+                    { "Pierre; or, The Ambiguities", "A novel by Herman Melville", 609, new DateTime(1852, 2, 17), 13, 14, 11.99m, 21.99m, 0m, true },
+                    { "Israel Potter: His Fifty Years of Exile", "A novel by Herman Melville", 346, new DateTime(1855, 2, 1), 13, 14, 14.99m, 27.99m, 0m, true },
+
+                    // Franz Kafka
+                    { "The Metamorphosis", "A novella by Franz Kafka", 44, new DateTime(1915, 10, 15), 14, 15, 13.99m, 26.99m, 0m, true },
+                    { "The Trial", "A novel by Franz Kafka", 213, new DateTime(1925, 4, 26), 14, 15, 8.99m, 17.99m, 0m, true },
+                    { "A Hunger Artist", "A short story by Franz Kafka", 32, new DateTime(1924, 10, 11), 14, 15, 10.99m, 19.99m, 0m, true },
+                    { "The Castle", "A novel by Franz Kafka", 352, new DateTime(1926, 4, 20), 14, 15, 12.99m, 24.99m, 0m, true },
+
+
+                    // Agatha Christie
+                    { "Murder on the Orient Express", "A mystery novel by Agatha Christie", 322, new DateTime(1934, 1, 1), 9, 11, 9.99m, 18.99m, 0m, true },
+                    { "The Murder of Roger Ackroyd", "A mystery novel by Agatha Christie", 312, new DateTime(1926, 6, 1), 9, 11, 11.99m, 21.99m, 0m, true },
+                    { "And Then There Were None", "A mystery novel by Agatha Christie", 264, new DateTime(1939, 11, 6), 9, 11, 14.99m, 27.99m, 0m, true },
+                    { "Death on the Nile", "A mystery novel by Agatha Christie", 288, new DateTime(1937, 11, 1), 9, 11, 13.99m, 26.99m, 0m, true },
+
+                    // Toni Morrison
+                    { "Beloved", "A novel by Toni Morrison", 321, new DateTime(1987, 9, 2), 10, 12, 10.99m, 19.99m, 0m, true },
+                    { "Song of Solomon", "A novel by Toni Morrison", 337, new DateTime(1977, 11, 1), 10, 12, 12.99m, 24.99m, 0m, true },
+                    { "Sula", "A novel by Toni Morrison", 174, new DateTime(1973, 11, 1), 10, 12, 9.99m, 18.99m, 0m, true },
+                    { "Tar Baby", "A novel by Toni Morrison", 318, new DateTime(1981, 1, 1), 10, 12, 11.99m, 21.99m, 0m, true },
+
+                    // Haruki Murakami
+                    { "Norwegian Wood", "A novel by Haruki Murakami", 296, new DateTime(1987, 9, 4), 11, 13, 14.99m, 27.99m, 0m, true },
+                    { "Kafka on the Shore", "A novel by Haruki Murakami", 467, new DateTime(2002, 9, 12), 11, 13, 13.99m, 26.99m, 0m, true },
+                    { "Colorless Tsukuru Tazaki and His Years of Pilgrimage", "A novel by Haruki Murakami", 386, new DateTime(2013, 4, 12), 11, 13, 8.99m, 17.99m, 0m, true },
+                    { "1Q84", "A novel by Haruki Murakami", 1157, new DateTime(2009, 5, 29), 11, 13, 10.99m, 19.99m, 0m, true },
+
+                    // Virginia Woolf
+                    { "To the Lighthouse", "A novel by Virginia Woolf", 209, new DateTime(1927, 5, 5), 12, 14, 12.99m, 24.99m, 0m, true },
+                    { "Mrs Dalloway", "A novel by Virginia Woolf", 194, new DateTime(1925, 5, 14), 12, 14, 9.99m, 18.99m, 0m, true },
+                    { "Orlando", "A novel by Virginia Woolf", 354, new DateTime(1928, 10, 11), 12, 14, 11.99m, 21.99m, 0m, true },
+                    { "Flush: A Biography", "A novel by Virginia Woolf", 224, new DateTime(1933, 1, 1), 12, 14, 14.99m, 27.99m, 0m, true }
                 });
 
             // Заполнение таблицы ShoppingCarts
@@ -660,14 +583,7 @@ namespace BookStore_DbContext.Migrations
                     { 14, 10 }, // For Whom the Bell Tolls - adventure
                     { 15, 10 }, // A Farewell to Arms - adventure
                     { 16, 10 }, // The Sun Also Rises - adventure
-                });
 
-            // Заполнение таблицы M_BookM_Ganre
-            migrationBuilder.InsertData(
-                table: "M_BookM_Ganre",
-                columns: new[] { "BooksId", "GanresId" },
-                values: new object[,]
-                {
                     // Fyodor Dostoevsky
                     { 17, 6 }, // Crime and Punishment - psychological
                     { 18, 7 }, // The Brothers Karamazov - philosophical
@@ -694,15 +610,7 @@ namespace BookStore_DbContext.Migrations
                     { 30, 14 }, // Love in the Time of Cholera - romance
                     { 31, 15 }, // Chronicle of a Death Foretold - mystery
                     { 32, 13 }, // Love and Other Demons - magical realism
-                });
 
-
-            // Заполнение таблицы M_BookM_Ganre
-            migrationBuilder.InsertData(
-                table: "M_BookM_Ganre",
-                columns: new[] { "BooksId", "GanresId" },
-                values: new object[,]
-                {
                     // Agatha Christie
                     { 33, 2 }, // Murder on the Orient Express - Mystery
                     { 33, 3 }, // Murder on the Orient Express - Detective
@@ -730,14 +638,7 @@ namespace BookStore_DbContext.Migrations
                     { 46, 15 }, // Mrs Dalloway - Stream of Consciousness
                     { 47, 14 }, // Orlando - Modernist
                     { 48, 14 }, // Flush: A Biography - Modernist
-                });
 
-            // Заполнение таблицы M_BookM_Ganre
-            migrationBuilder.InsertData(
-                table: "M_BookM_Ganre",
-                columns: new[] { "BooksId", "GanresId" },
-                values: new object[,]
-                {
                     // J.R.R. Tolkien
                     { 49, 1 }, // The Hobbit - Science Fiction
                     { 50, 1 }, // The Lord of the Rings - Science Fiction
@@ -853,6 +754,8 @@ namespace BookStore_DbContext.Migrations
                     { 59, 3000 },
                     { 60, 3050 },
                 });
+
+
         }
 
         /// <inheritdoc />
@@ -860,6 +763,9 @@ namespace BookStore_DbContext.Migrations
         {
             migrationBuilder.DropTable(
                 name: "BookRelationships");
+
+            migrationBuilder.DropTable(
+                name: "Books");
 
             migrationBuilder.DropTable(
                 name: "M_BookM_Ganre");
@@ -886,13 +792,13 @@ namespace BookStore_DbContext.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Books");
-
-            migrationBuilder.DropTable(
                 name: "Authors");
 
             migrationBuilder.DropTable(
                 name: "PublishingHouses");
+
+            migrationBuilder.DropSequence(
+                name: "M_BookSequence");
         }
     }
 }

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace _13_Exam_BookShop.ViewModels.DbViewModels;
 
-public partial class VM_BookForSale : VM_Entity
+public partial class VM_BookForSale : VM_Book
 {
     [ObservableProperty] M_BookForSale model;
-    public VM_BookForSale(M_BookForSale model)
+    public VM_BookForSale(M_BookForSale model):base(model)
     {
         Model = model;
     }
@@ -24,32 +24,6 @@ public partial class VM_BookForSale : VM_Entity
             {
                 Model.Id = value;
                 OnPropertyChanged(nameof(Id));
-            }
-        }
-    }
-
-    public int BookId
-    {
-        get { return Model.BookId; }
-        protected set
-        {
-            if (Model.BookId != value)
-            {
-                Model.BookId = value;
-                OnPropertyChanged(nameof(BookId));
-            }
-        }
-    }
-    public VM_Book Book
-    {
-        get { return new (Model.Book); }
-        set
-        {
-            if (Model.Book != value.Model)
-            {
-                Model.Book = value.Model;
-                this.BookId = value.Model.Id;
-                OnPropertyChanged(nameof(Book));
             }
         }
     }
