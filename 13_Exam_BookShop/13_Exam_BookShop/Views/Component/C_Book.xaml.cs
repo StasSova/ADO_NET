@@ -40,8 +40,8 @@ public partial class C_Book : UserControl
         set { SetValue(IdProperty, value); }
     }
 
-    public static readonly DependencyProperty TitleProperty =
-        DependencyProperty.Register("Title", typeof(string), typeof(C_Book), new PropertyMetadata(null));
+    public static  DependencyProperty TitleProperty =
+        DependencyProperty.Register("Title", typeof(string), typeof(C_Book), new FrameworkPropertyMetadata("test", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
     public string Title
     {

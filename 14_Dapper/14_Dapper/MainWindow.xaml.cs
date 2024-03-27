@@ -92,7 +92,6 @@ namespace _14_Dapper
 
                 InformationzBlock.ItemsSource = dataTable.DefaultView;
             }
-
         }
 
         // Логика для отображения списка разделов

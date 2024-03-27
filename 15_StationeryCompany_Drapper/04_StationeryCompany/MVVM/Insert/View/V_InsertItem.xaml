@@ -1,0 +1,34 @@
+﻿<Window x:Class="_04_StationeryCompany.MVVM.Insert.View.V_InsertItem"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_04_StationeryCompany.MVVM.Insert.View"
+        mc:Ignorable="d"
+        Title="V_InsertItem" Height="450" Width="800">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <StackPanel Orientation="Vertical">
+        <TextBox Text="{Binding Item.Name}"/>
+        <ComboBox 
+        ItemsSource="{Binding Storage.TypeOfItems}"
+        SelectedItem="{Binding SelectedTypeItem}"/>
+        <TextBox Text="{Binding Item.Count}"/>
+        <TextBox Text="{Binding Item.CostPrice}"/>
+        <TextBox Text="{Binding Item.Price}"/>
+
+        <StackPanel Orientation="Horizontal">
+            <Button 
+            Content="Add"
+            Click="Add_Click"/>
+            <Button 
+            Content="Cancel"
+            Click="Cancel_Click"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

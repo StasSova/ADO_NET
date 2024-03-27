@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="_04_StationeryCompany.MVVM.ViewElements.View.V_User"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:_04_StationeryCompany.MVVM.ViewElements.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="bt_header_elem_style" TargetType="Button">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{DynamicResource w_primaryContainerColor}"/>
+                <Setter Property="Tag" Value="{DynamicResource w_primaryTextColor}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border 
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="0 0 5 5"
+                                SnapsToDevicePixels="True">
+                                <ContentPresenter 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" 
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                    RecognizesAccessKey="True"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="Background" Value="{DynamicResource w_onHoverPrimaryContainerColor}"/>
+                        <Setter Property="Tag" Value="{DynamicResource w_onHoverPrimaryTextColor}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Button x:Name="btn_Container" Style="{StaticResource bt_header_elem_style}">
+            <Viewbox Width="24px" Height="24px" Margin="12 8">
+                <Path xmlns:x="http://www.w3.org/2000/svg" Fill="{Binding Tag, ElementName=btn_Container}">
+                    <Path.Data>
+                        <PathGeometry Figures="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" FillRule="Nonzero"/>
+                    </Path.Data>
+                </Path>
+            </Viewbox>
+
+            <!--<Button.InputBindings>
+                <MouseBinding Gesture="LeftClick" Command="{Binding MoveToProfilePageCommand}"/>
+            </Button.InputBindings>-->
+        </Button>
+    </Grid>
+</UserControl>

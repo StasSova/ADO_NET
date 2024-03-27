@@ -94,10 +94,10 @@
         <StackPanel Grid.Row="1" Background="White" Margin="5">
             <!-- Название книги -->
             <!--<TextBlock Text="{Binding Title}" Style="{StaticResource TitleStyle}"/>-->
-            <TextBlock Text="The Adventures of Tom Sawyer" Style="{StaticResource TitleStyle}"/>
+            <TextBlock Text="{Binding Title }" Style="{StaticResource TitleStyle}"/>
             <!-- Автор -->
             <!--<TextBlock Text="{Binding Author}" Style="{StaticResource AuthorStyle}"/>-->
-            <TextBlock Text="George Orwell" Style="{StaticResource AuthorStyle}"/>
+            <TextBlock Text="{Binding Author }" Style="{StaticResource AuthorStyle}"/>
             <!-- Цена -->
             <!--<TextBlock Text="{Binding SellingPrice, StringFormat={}{0:C}}" Style="{StaticResource PriceStyle}"/>-->
             <TextBlock Text="200$" Style="{StaticResource PriceStyle}"/>

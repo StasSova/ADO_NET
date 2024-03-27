@@ -1,0 +1,246 @@
+﻿<Page x:Class="_04_StationeryCompany.MVVM.View.V_HystoryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:_04_StationeryCompany.MVVM.View"
+      mc:Ignorable="d" 
+      
+        xmlns:component="clr-namespace:_04_StationeryCompany.Components"
+        xmlns:converter="clr-namespace:_04_StationeryCompany.Base"
+        xmlns:ViewModel="clr-namespace:_04_StationeryCompany.MVVM.ViewModel"
+        xmlns:storage="clr-namespace:_04_StationeryCompany.MVVM"
+      
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="V_HystoryPage">
+    
+    <Page.DataContext>
+        <ViewModel:VM_HystoryPage/>
+    </Page.DataContext>
+    
+    <Page.Resources>
+        <ResourceDictionary>
+            <converter:TypeIdToTypeName x:Key="FromTypeIdToTypeName"/>
+            <converter:DateToShort x:Key="DateToShort"/>
+            <converter:ManagerIdToManagerFullName x:Key="ManagerIdToManagerFullName"/>
+            <converter:ItemIdToItemName x:Key="ItemIdToItemName"/>
+            <converter:BuyersCompanyToBuyersCompanyName x:Key="BuyersCompanyToBuyersCompanyName"/>
+            <converter:DecimalToVariableCurrency x:Key="DecimalToVariableCurrency"/>
+            <converter:SortToText x:Key="SortToText"/>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <Button 
+                    Content="По менеджеру"
+                    Command="{Binding ShowItemsSoldByManagerIdCommand}"
+                    />
+                <ComboBox Width="160" ItemsSource="{Binding StorageCollectionRef.Managers}" SelectedItem="{Binding SelectedManager}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button 
+                    Content="По компании"
+                    Command="{Binding ShowItemsBoughtByCompanyIdCommand}"
+                    />
+                <ComboBox Width="160" ItemsSource="{Binding StorageCollectionRef.Company}" SelectedItem="{Binding SelectedCompany}"/>
+            </StackPanel>
+        </WrapPanel>
+        <!--Title-->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+
+            <component:GridHeaderButton2
+                Grid.Column="0"
+                Style="{DynamicResource HeaderButton}"
+                Command="{Binding Sort}"
+                SortDirection="{Binding SortDirection}"
+                SortedBy="{Binding SortedBy}"
+                ColumnName="Item"
+                CommandParameter="{Binding ColumnName, RelativeSource={RelativeSource Self}}">
+                <TextBlock 
+                    Margin="-10 0"
+                    Padding="10 12"
+                    Foreground="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                    HorizontalAlignment="left"
+                    >
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource SortToText}">
+                            <Binding Path="ColumnName" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="SortedBy" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="SortDirection" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="HorizontalAlignment" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </component:GridHeaderButton2>
+
+            <component:GridHeaderButton2
+                Grid.Column="1"
+                Style="{DynamicResource HeaderButton}"
+                Command="{Binding Sort}"
+                SortDirection="{Binding SortDirection}"
+                SortedBy="{Binding SortedBy}"
+                ColumnName="Manager"
+                CommandParameter="{Binding ColumnName, RelativeSource={RelativeSource Self}}">
+                <TextBlock 
+                    Margin="-10 0"
+                    Padding="10 12"
+                    Foreground="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                    HorizontalAlignment="left"
+                    >
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource SortToText}">
+                            <Binding Path="ColumnName" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="SortedBy" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="SortDirection" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}" />
+                            <Binding Path="HorizontalAlignment" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </component:GridHeaderButton2>
+
+            <component:GridHeaderButton2
+                Grid.Column="2"
+                Style="{DynamicResource HeaderButton}"
+                Command="{Binding Sort}"
+                SortDirection="{Binding SortDirection}"
+                SortedBy="{Binding SortedBy}"
+                ColumnName="Company"
+                CommandParameter="{Binding ColumnName, RelativeSource={RelativeSource Self}}">
+                <TextBlock 
+                    Margin="-10 0"
+                    Padding="10 12"
+                    Foreground="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                    HorizontalAlignment="Right"
+                    >
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource SortToText}">
+                            <Binding Path="ColumnName" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="SortedBy" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="SortDirection" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="HorizontalAlignment" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </component:GridHeaderButton2>
+
+            <component:GridHeaderButton2
+                Grid.Column="3"
+                Style="{DynamicResource HeaderButton}"
+                Command="{Binding Sort}"
+                SortDirection="{Binding SortDirection}"
+                SortedBy="{Binding SortedBy}"
+                ColumnName="Count"
+                CommandParameter="{Binding ColumnName, RelativeSource={RelativeSource Self}}">
+                <TextBlock 
+                    Margin="-10 0"
+                    Padding="10 12"
+                    Foreground="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                    HorizontalAlignment="Right"
+                    >
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource SortToText}">
+                            <Binding Path="ColumnName" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="SortedBy" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="SortDirection" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="HorizontalAlignment" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </component:GridHeaderButton2>
+
+            <component:GridHeaderButton2
+                Grid.Column="4"
+                Style="{DynamicResource HeaderButton}"
+                Command="{Binding Sort}"
+                SortDirection="{Binding SortDirection}"
+                SortedBy="{Binding SortedBy}"
+                ColumnName="Date"
+                CommandParameter="{Binding ColumnName, RelativeSource={RelativeSource Self}}">
+                <TextBlock 
+                    Margin="-10 0"
+                    Padding="10 12"
+                    Foreground="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                    HorizontalAlignment="Right"
+                    >
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource SortToText}">
+                            <Binding Path="ColumnName" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="SortedBy" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="SortDirection" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="HorizontalAlignment" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </component:GridHeaderButton2>
+
+            <component:GridHeaderButton2
+                Grid.Column="5"
+                Style="{DynamicResource HeaderButton}"
+                Command="{Binding Sort}"
+                SortDirection="{Binding SortDirection}"
+                SortedBy="{Binding SortedBy}"
+                ColumnName="Information"
+                CommandParameter="{Binding ColumnName, RelativeSource={RelativeSource Self}}">
+                <TextBlock 
+                    Margin="-10 0"
+                    Padding="10 12"
+                    Foreground="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                    HorizontalAlignment="Right"
+                    >
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource SortToText}">
+                            <Binding Path="ColumnName" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="SortedBy" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="SortDirection" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                            <Binding Path="HorizontalAlignment" RelativeSource="{RelativeSource AncestorType={x:Type component:GridHeaderButton2}}"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </component:GridHeaderButton2>
+        </Grid>
+        
+        <!--ITEMS COLLECTION-->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl
+            ItemsSource="{Binding Sells}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Tag="{Binding Id}" Style="{StaticResource ItemContainer}">
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions >
+                                <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="{Binding ItemId, Converter={StaticResource ItemIdToItemName} }" Style="{StaticResource ItemInformation}"/>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" Text="{Binding ManagerID, Converter={StaticResource ManagerIdToManagerFullName}}" Style="{StaticResource ItemInformation}"/>
+                                <TextBlock Grid.Column="2" HorizontalAlignment="Right" Text="{Binding BuyersCompany, Converter={StaticResource BuyersCompanyToBuyersCompanyName}}" Style="{StaticResource ItemInformation}"/>
+                                <TextBlock Grid.Column="3" HorizontalAlignment="Right" Text="{Binding Count}" Style="{StaticResource ItemInformation}"/>
+                                <TextBlock Grid.Column="4" HorizontalAlignment="Right" Text="{Binding Date, Converter={StaticResource DateToShort}}" Style="{StaticResource ItemInformation}"/>
+                                <TextBlock Grid.Column="5" HorizontalAlignment="Right" Text="{Binding AdditionInformation}" Style="{StaticResource ItemInformation}"/>
+                            </Grid>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>
