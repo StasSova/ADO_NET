@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _13_Exam_BookShop.ViewModels;
 
-public abstract class VM_Page: VM_Base
+public abstract class VM_Page : VM_Base
 {
     public virtual void Initialize(object parameter) { }
 }

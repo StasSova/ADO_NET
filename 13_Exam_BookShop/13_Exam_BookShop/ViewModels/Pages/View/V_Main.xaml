@@ -8,7 +8,7 @@
         xmlns:component="clr-namespace:_13_Exam_BookShop.Views.Component"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:_13_Exam_BookShop.ViewModels.Pages.ViewModel"
-        Title="V_Main" Height="450" Width="800">
+        Title="V_Main" MinHeight="550"  MinWidth="700">
 
     <!--<Window.DataContext>
         <vm:VM_Main/>
@@ -16,42 +16,6 @@
 
     <Window.Resources>
         <ResourceDictionary>
-
-
-            <!-- Стили для элементов -->
-            <Style TargetType="Image" x:Key="ImageStyle">
-                <Setter Property="Margin" Value="5"/>
-                <Setter Property="Width" Value="140"/>
-                <Setter Property="Stretch" Value="Fill"/>
-            </Style>
-
-            <!-- Стиль для названия книги -->
-            <Style TargetType="TextBlock" x:Key="TitleStyle">
-                <Setter Property="FontWeight" Value="Bold"/>
-                <Setter Property="FontSize" Value="12"/>
-                <Setter Property="Margin" Value="5"/>
-            </Style>
-
-            <!-- Стиль для автора -->
-            <Style TargetType="TextBlock" x:Key="AuthorStyle">
-                <Setter Property="FontStyle" Value="Italic"/>
-                <Setter Property="FontSize" Value="10"/>
-                <Setter Property="Margin" Value="5"/>
-            </Style>
-
-            <!-- Стиль для описания -->
-            <Style TargetType="TextBlock" x:Key="DescriptionStyle">
-                <Setter Property="TextWrapping" Value="Wrap"/>
-                <Setter Property="FontSize" Value="10"/>
-                <Setter Property="Margin" Value="5"/>
-            </Style>
-
-            <!-- Стиль для цены -->
-            <Style TargetType="TextBlock" x:Key="PriceStyle">
-                <Setter Property="FontSize" Value="10"/>
-                <Setter Property="Margin" Value="5"/>
-            </Style>
-
             <!-- Стиль для кнопок -->
             <Style TargetType="Button" x:Key="ButtonStyle">
                 <Setter Property="Margin" Value="5"/>
@@ -64,27 +28,13 @@
             </Style>
 
             <Style TargetType="Button" x:Key="TransparentButtonStyle">
-                <!--<Setter Property="Margin" Value="5"/>
-    <Setter Property="Padding" Value="10"/>
-    <Setter Property="BorderThickness" Value="0"/>
-    <Setter Property="Template">
-        <Setter.Value>
-            <ControlTemplate TargetType="Button">
-                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </ControlTemplate>
-        </Setter.Value>
-    </Setter>-->
+
             </Style>
 
             <!-- Стиль для иконок -->
             <Style x:Key="IconStyle" TargetType="Path">
                 <Setter Property="Fill" Value="#2E2E2E"/>
             </Style>
-
-
-
-
-            <sys:String x:Key="ImageUrl">https://images.unsplash.com/photo-1707808512103-23f911fab68a?w=500&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxNHx8fGVufDB8fHx8fA%3D%3D</sys:String>
 
             <Style x:Key="NeumorphicButton" TargetType="Button">
                 <Setter Property="Background" Value="#F0F0F0"/>
@@ -132,10 +82,12 @@
                 </Style.Triggers>
             </Style>
 
+
             <!-- Стиль для иконок -->
             <Style x:Key="NeumorphicIcon" TargetType="Path">
                 <Setter Property="Fill" Value="#2E2E2E"/>
             </Style>
+
 
             <!-- Стиль для контейнера с эффектом неоморфизма -->
             <Style x:Key="NeumorphicContainer" TargetType="Grid">
@@ -156,35 +108,15 @@
                 </Style.Triggers>
             </Style>
 
-            <Style x:Key="NeumorphicMenu" TargetType="Menu">
-                <Setter Property="Background" Value="White"/>
-                <Setter Property="BorderBrush" Value="#E0E0E0"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="Padding" Value="10"/>
-                <Setter Property="Margin" Value="5"/>
-               
-            </Style>
-
-            <Style x:Key="NeumorphicMenuItem" TargetType="MenuItem">
-                <Setter Property="Background" Value="White"/>
-                <Setter Property="BorderBrush" Value="#E0E0E0"/>
-                <Setter Property="BorderThickness" Value="0,1,0,1"/>
-                <Setter Property="Padding" Value="10"/>
-                <Style.Triggers>
-                    <Trigger Property="IsHighlighted" Value="True">
-                        <Setter Property="Background" Value="#C0C0C0"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-
         </ResourceDictionary>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/> <!--header-->
-            <RowDefinition Height="auto"/> <!--menu-->
-            <RowDefinition Height="*"/> <!--catalog-->
+            <RowDefinition Height="auto"/>
+            <!--header-->
+            <RowDefinition Height="*"/>
+            <!--content-->
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -194,7 +126,7 @@
 
         <!-- HEADER -->
         <DockPanel Grid.Row="0" Grid.Column="1">
-            <StackPanel DockPanel.Dock="Right">
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                 <Grid HorizontalAlignment="Right" Style="{StaticResource NeumorphicContainer}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -219,6 +151,21 @@
                         Text="0 800 666 606"
                         Grid.Column="1" Grid.Row="1"/>
                 </Grid>
+                <Button
+                    Command="{Binding MoveToUserAccountCommand}"
+                    Width="36px"
+                    Height="36px"
+                    Margin="30px 0 0 0"
+                    Style="{StaticResource TransparentButtonStyle}">
+                    <Viewbox Width="24" Height="24" >
+                        <Grid >
+                            <Path
+                                Style="{StaticResource IconStyle}"
+                                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                Data="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
+                        </Grid>
+                    </Viewbox>
+                </Button>
             </StackPanel>
             <StackPanel DockPanel.Dock="Left" Style="{StaticResource NeumorphicStackPanel}">
                 <Button 
@@ -235,102 +182,8 @@
                     Style="{StaticResource NeumorphicButton}"/>
             </StackPanel>
         </DockPanel>
-        <!-- MENU -->
-        <Menu x:Name="MenuCollection" Grid.Row="1" Grid.Column="1" Style="{StaticResource NeumorphicMenu}">
-            <MenuItem Header="Акции" Style="{StaticResource NeumorphicMenuItem}"/>
-            <MenuItem Header="Книги" Style="{StaticResource NeumorphicMenuItem}">
-                <MenuItem x:Name="MenuGanre" Header="Жанр" Style="{StaticResource NeumorphicMenuItem}"/>
-                <MenuItem x:Name="MenuAuthor" Header="Автор" Style="{StaticResource NeumorphicMenuItem}"/>
-            </MenuItem>
-        </Menu>
-        
-        
 
-        <Grid Grid.Row="2" Grid.Column="1">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding Books, UpdateSourceTrigger=PropertyChanged}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <component:C_Book
-                                    Title="{Binding Title}"
-                                    Image="{Binding Image}"
-                                    Author="{Binding Author}"
-                                    SellingPrice="{Binding SellingPrice}"
-                                    Discount="{Binding Discount}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-
-
-
-            <!--В качестве элемента списка используем созданный нами UserControl для отображения книги-->
-            <!--<Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-
-                <Image 
-      Grid.Row="0" 
-      Source="{Binding Image}" 
-      Style="{StaticResource ImageStyle}"/>
-
-                --><!-- Нижняя часть: Описание и кнопки --><!--
-                <StackPanel Grid.Row="1" Background="White" Margin="5">
-                    --><!-- Название книги -->
-                    <!--<TextBlock Text="{Binding Title}" Style="{StaticResource TitleStyle}"/>--><!--
-                    <TextBlock Text="{Binding Title }" Style="{StaticResource TitleStyle}"/>
-                    --><!-- Автор -->
-                    <!--<TextBlock Text="{Binding Author}" Style="{StaticResource AuthorStyle}"/>--><!--
-                    <TextBlock Text="{Binding Author.FirstName }" Style="{StaticResource AuthorStyle}"/>
-                    --><!-- Цена -->
-                    <!--<TextBlock Text="{Binding SellingPrice, StringFormat={}{0:C}}" Style="{StaticResource PriceStyle}"/>--><!--
-                    <TextBlock Text="{Binding SellingPrice}" Style="{StaticResource PriceStyle}"/>
-                    --><!-- Кнопки --><!--
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                        --><!--<Button Command="{Binding OnCartCommand, RelativeSource={RelativeSource AncestorType={x:Type local:C_Book}}}" CommandParameter="{Binding Id}" Style="{StaticResource TransparentButtonStyle}" Margin="0 0 25 0">--><!--
-                        <Button Style="{StaticResource TransparentButtonStyle}" Margin="0 0 25 0">
-                            <Viewbox Width="24" Height="24" >
-                                <Grid >
-                                    <Path
-                              Style="{StaticResource IconStyle}"
-                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                              Data="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/>
-                                </Grid>
-                            </Viewbox>
-                        </Button>
-
-                        --><!--<Button Command="{Binding OnLikeCommand, RelativeSource={RelativeSource AncestorType={x:Type local:C_Book}}}" CommandParameter="{Binding Id}" Style="{StaticResource TransparentButtonStyle}"  Margin="0 0 25 0">--><!--
-                        <Button Style="{StaticResource TransparentButtonStyle}"  Margin="0 0 25 0">
-                            <Viewbox Width="24" Height="24">
-                                <Grid >
-                                    <Path
-                              Style="{StaticResource IconStyle}"
-                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                              Data="M24 0C10.7 0 0 10.7 0 24S10.7 48 24 48H69.5c3.8 0 7.1 2.7 7.9 6.5l51.6 271c6.5 34 36.2 58.5 70.7 58.5H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H199.7c-11.5 0-21.4-8.2-23.6-19.5L170.7 288H459.2c32.6 0 61.1-21.8 69.5-53.3l41-152.3C576.6 57 557.4 32 531.1 32H360V134.1l23-23c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-64 64c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l23 23V32H120.1C111 12.8 91.6 0 69.5 0H24zM176 512a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm336-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0z"/>
-                                </Grid>
-                            </Viewbox>
-                        </Button>
-
-                    </StackPanel>
-                </StackPanel>
-            </Grid>-->
-
-            <!--<component:C_Book
-                DataContext="{Binding RelativeSource={RelativeSource Self}}"
-                Id="312"
-                Title="Test"
-                Image="{StaticResource ImageUrl}"
-                Author="Author"
-                SellingPrice="15"
-                OnLikeCommand = "{Binding AddToLikeCommand}"
-                OnCartCommand = "{Binding AddToCartCommand}"
-                Discount="123"/>-->
-        </Grid>
+        <Frame Grid.Row="1" Grid.Column="1" x:Name="MainFrame"></Frame>
 
     </Grid>
 </Window>

@@ -29,7 +29,7 @@ public partial class VM_ShoppingCart : VM_Entity
             }
         }
     }
-    
+
     public int UserId
     {
         get { return Model.UserId; }
@@ -42,20 +42,20 @@ public partial class VM_ShoppingCart : VM_Entity
             }
         }
     }
-    public VM_User User
-    {
-        get { return new (Model.User); }
-        set
-        {
-            if (Model.User != value.Model)
-            {
-                Model.User = value.Model;
-                this.UserId = value.Id;
-                OnPropertyChanged(nameof(User));
-            }
-        }
-    }
-    
+    //public VM_User User
+    //{
+    //    get { return new (Model.User); }
+    //    set
+    //    {
+    //        if (Model.User != value.Model)
+    //        {
+    //            Model.User = value.Model;
+    //            this.UserId = value.Id;
+    //            OnPropertyChanged(nameof(User));
+    //        }
+    //    }
+    //}
+
     public ObservableCollection<VM_BookForSale> Books
     {
         get

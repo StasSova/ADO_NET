@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,80 +15,91 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Net.WebRequestMethods;
 
+using Kasay;
+
 namespace _13_Exam_BookShop.Views.Component;
 
 /// <summary>
 /// Interaction logic for C_Book.xaml
 /// </summary>
-public partial class C_Book : UserControl
+public partial class C_Book : UserControl, INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler PropertyChanged;
     public C_Book()
     {
-        InitializeComponent();
-        DataContext = this;
-        //Image = @"https://images.unsplash.com/photo-1707808512103-23f911fab68a?w=500&amp;auto=format&amp;fit=crop&amp;q=60&amp;ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxNHx8fGVufDB8fHx8fA%3D%3D";
-        //SellingPrice = 10
+        //InitializeComponent();
     }
 
     // Define dependency properties for book properties
 
-    public static readonly DependencyProperty IdProperty =
-    DependencyProperty.Register("Id", typeof(int), typeof(C_Book), new PropertyMetadata(0));
+    [Bind] public int Id { get; set; }
+    [Bind] public string Title { get; set; }
+    [Bind] public string Image { get; set; }
+    [Bind] public string Author { get; set; }
+    [Bind] public IEnumerable<string> Genres { get; set; }
+    [Bind] public decimal SellingPrice { get; set; }
+    [Bind] public decimal Discount { get; set; }
 
-    public int Id
-    {
-        get { return (int)GetValue(IdProperty); }
-        set { SetValue(IdProperty, value); }
-    }
 
-    public static  DependencyProperty TitleProperty =
-        DependencyProperty.Register("Title", typeof(string), typeof(C_Book), new FrameworkPropertyMetadata("test", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+    //public static readonly DependencyProperty IdProperty =
+    //DependencyProperty.Register("Id", typeof(int), typeof(C_Book), new PropertyMetadata(0));
 
-    public string Title
-    {
-        get { return (string)GetValue(TitleProperty); }
-        set { SetValue(TitleProperty, value); }
-    }
+    //public int Id
+    //{
+    //    get { return (int)GetValue(IdProperty); }
+    //    set { SetValue(IdProperty, value); }
+    //}
+
+
+
+    //public static  DependencyProperty TitleProperty =
+    //    DependencyProperty.Register("Title", typeof(string), typeof(C_Book), new FrameworkPropertyMetadata("test", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+    //public string Title
+    //{
+    //    get { return (string)GetValue(TitleProperty); }
+    //    set { SetValue(TitleProperty, value); }
+    //}
     
-    public static readonly DependencyProperty ImageProperty =
-        DependencyProperty.Register("Image", typeof(string), typeof(C_Book), new PropertyMetadata(null));
-    public string Image
-    {
-        get { return (string)GetValue(ImageProperty); }
-        set { SetValue(ImageProperty, value); }
-    }
+    //public static readonly DependencyProperty ImageProperty =
+    //    DependencyProperty.Register("Image", typeof(string), typeof(C_Book), new PropertyMetadata(null));
+    //public string Image
+    //{
+    //    get { return (string)GetValue(ImageProperty); }
+    //    set { SetValue(ImageProperty, value); }
+    //}
     
-    public static readonly DependencyProperty AuthorProperty =
-        DependencyProperty.Register("Author", typeof(string), typeof(C_Book), new PropertyMetadata(null));
-    public string Author
-    {
-        get { return (string)GetValue(AuthorProperty); }
-        set { SetValue(AuthorProperty, value); }
-    }
+    //public static readonly DependencyProperty AuthorProperty =
+    //    DependencyProperty.Register("Author", typeof(string), typeof(C_Book), new PropertyMetadata(null));
+    //public string Author
+    //{
+    //    get { return (string)GetValue(AuthorProperty); }
+    //    set { SetValue(AuthorProperty, value); }
+    //}
 
-    public static readonly DependencyProperty GenresProperty =
-                DependencyProperty.Register("Genres", typeof(IEnumerable<string>), typeof(C_Book), new PropertyMetadata(null));
-    public IEnumerable<string> Genres
-    {
-        get { return (IEnumerable<string>)GetValue(GenresProperty); }
-        set { SetValue(GenresProperty, value); }
-    }
+    //public static readonly DependencyProperty GenresProperty =
+    //            DependencyProperty.Register("Genres", typeof(IEnumerable<string>), typeof(C_Book), new PropertyMetadata(null));
+    //public IEnumerable<string> Genres
+    //{
+    //    get { return (IEnumerable<string>)GetValue(GenresProperty); }
+    //    set { SetValue(GenresProperty, value); }
+    //}
 
-    public static readonly DependencyProperty SellingPriceProperty =
-        DependencyProperty.Register("SellingPrice", typeof(decimal), typeof(C_Book), new PropertyMetadata(0m));
-    public decimal SellingPrice
-    {
-        get { return (decimal)GetValue(SellingPriceProperty); }
-        set { SetValue(SellingPriceProperty, value); }
-    }
+    //public static readonly DependencyProperty SellingPriceProperty =
+    //    DependencyProperty.Register("SellingPrice", typeof(decimal), typeof(C_Book), new PropertyMetadata(0m));
+    //public decimal SellingPrice
+    //{
+    //    get { return (decimal)GetValue(SellingPriceProperty); }
+    //    set { SetValue(SellingPriceProperty, value); }
+    //}
     
-    public static readonly DependencyProperty DiscountProperty =
-        DependencyProperty.Register("Discount", typeof(decimal), typeof(C_Book), new PropertyMetadata(0m));
-    public decimal Discount
-    {
-        get { return (decimal)GetValue(DiscountProperty); }
-        set { SetValue(DiscountProperty, value); }
-    }
+    //public static readonly DependencyProperty DiscountProperty =
+    //    DependencyProperty.Register("Discount", typeof(decimal), typeof(C_Book), new PropertyMetadata(0m));
+    //public decimal Discount
+    //{
+    //    get { return (decimal)GetValue(DiscountProperty); }
+    //    set { SetValue(DiscountProperty, value); }
+    //}
 
     // Зависимые свойства для команд "Лайк" и "Добавить в корзину"
     public static readonly DependencyProperty OnLikeCommandProperty = DependencyProperty.Register(

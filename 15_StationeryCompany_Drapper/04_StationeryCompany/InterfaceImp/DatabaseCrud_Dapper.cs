@@ -47,7 +47,6 @@ class DatabaseCrud_Dapper : IDataBaseCrud
     }
 
 
-
     private async Task<List<M_Item>> GetItems(string ProcedureName, DynamicParameters parameters = null)
     {
         List<M_Item> items;

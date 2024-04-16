@@ -28,7 +28,7 @@ public partial class VM_Book : VM_Entity
             }
         }
     }
-    
+
     public string Title
     {
         get { return Model.Title; }
@@ -40,7 +40,7 @@ public partial class VM_Book : VM_Entity
                 OnPropertyChanged(nameof(Title));
             }
         }
-    }   
+    }
     public string Image
     {
         get { return Model.Image; }
@@ -104,7 +104,7 @@ public partial class VM_Book : VM_Entity
     }
     public VM_PublishingHouse PublishingHouse
     {
-        get { return new (Model.PublishingHouse); }
+        get { return new(Model.PublishingHouse); }
         set
         {
             if (Model.PublishingHouse != value.Model)
@@ -141,21 +141,37 @@ public partial class VM_Book : VM_Entity
             }
         }
     }
+    private ObservableCollection<VM_Genre> _genres;
     public ObservableCollection<VM_Genre> Ganres
     {
         get
         {
-            var collection = new ObservableCollection<VM_Genre>();
-            try
+            if (_genres == null)
             {
-                var db = Model.Ganres;
-                foreach (var book in db)
+                _genres = new ObservableCollection<VM_Genre>();
+                try
                 {
-                    collection.Add(new(book));
+                    foreach (var genre in Model.Ganres)
+                    {
+                        _genres.Add(new VM_Genre(genre));
+                    }
+                }
+                catch { }
+            }
+            return _genres;
+        }
+        set
+        {
+            if (_genres != value)
+            {
+                _genres = value;
+                OnPropertyChanged(nameof(Ganres));
+                Model.Ganres.Clear();
+                foreach (var genre in value)
+                {
+                    Model.Ganres.Add(genre.Model);
                 }
             }
-            catch { }
-            return collection;
         }
     }
 }

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:_13_Exam_BookShop.Views.Component"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="400">
 
@@ -84,6 +85,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
+
         
         <Image 
             Grid.Row="0" 
@@ -100,7 +102,7 @@
             <TextBlock Text="{Binding Author }" Style="{StaticResource AuthorStyle}"/>
             <!-- Цена -->
             <!--<TextBlock Text="{Binding SellingPrice, StringFormat={}{0:C}}" Style="{StaticResource PriceStyle}"/>-->
-            <TextBlock Text="200$" Style="{StaticResource PriceStyle}"/>
+            <TextBlock Text="{Binding SellingPrice }" Style="{StaticResource PriceStyle}"/>
             <!-- Кнопки -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
                 <!--<Button Command="{Binding OnCartCommand, RelativeSource={RelativeSource AncestorType={x:Type local:C_Book}}}" CommandParameter="{Binding Id}" Style="{StaticResource TransparentButtonStyle}" Margin="0 0 25 0">-->

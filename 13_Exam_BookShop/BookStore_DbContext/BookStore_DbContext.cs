@@ -109,7 +109,7 @@ public class BookStore_DbContext : DbContext
 
         modelBuilder.Entity<M_BookForSale>()
             .Property(bfs => bfs.Discount)
-            .HasColumnType("decimal(3, 2)")
+            .HasColumnType("decimal(4, 2)")
             .HasDefaultValue(0);
 
         modelBuilder.Entity<M_BookForSale>()

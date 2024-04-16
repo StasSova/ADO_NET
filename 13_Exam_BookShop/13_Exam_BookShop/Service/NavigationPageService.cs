@@ -1,4 +1,7 @@
 ﻿using _13_Exam_BookShop.ViewModels;
+using _13_Exam_BookShop.ViewModels.Pages.View;
+using _13_Exam_BookShop.ViewModels.Pages.ViewModel;
+using _13_Exam_BookShop.ViewModels.Registration.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,12 +35,18 @@ public class NavigationPageService
 
     public void NavigateTo<TViewModel>() where TViewModel : VM_Page
     {
-        InternalNavigateTo(typeof(TViewModel), null!);
+        if (!IsCurrentPage<TViewModel>())
+        {
+            InternalNavigateTo(typeof(TViewModel), null!);
+        }
     }
 
     public void NavigateTo<TViewModel>(object parameter) where TViewModel : VM_Page
     {
-        InternalNavigateTo(typeof(TViewModel), parameter);
+        if (!IsCurrentPage<TViewModel>())
+        {
+            InternalNavigateTo(typeof(TViewModel), parameter);
+        }
     }
 
     protected virtual void InternalNavigateTo(Type viewModelType, object parameter)
@@ -50,18 +59,28 @@ public class NavigationPageService
         }
 
         Page page = (Page)Activator.CreateInstance(pageType)!;
-        if (page.DataContext is VM_Page viewModel)
+        VM_Page viewModel = (VM_Page)Activator.CreateInstance(viewModelType)!;
+        page.DataContext = viewModel;
+        page.BeginInit();
+
+        if (viewModel != null)
         {
             viewModel.Initialize(parameter);
         }
 
-        if (Application.Current.MainWindow != null && Application.Current.MainWindow.Content is Frame frame)
+        if (Application.Current.MainWindow != null)
         {
-            frame.Navigate(page);
+            // Находим Frame по его имени "MainFrame"
+            if (Application.Current.MainWindow.FindName("MainFrame") is Frame frame)
+            {
+                // Выполняем навигацию на страницу
+                frame.Navigate(page);
+            }
         }
 
         CurrentViewModel = viewModelType;
     }
+
 
     protected Type GetPageTypeForViewModel(Type viewModelType)
     {
@@ -74,19 +93,15 @@ public class NavigationPageService
 
     private void CreatePageViewModelMappings()
     {
-        //_mappings.Add(typeof(VM_MainPage), typeof(V_MainPage));
-
-        //_mappings.Add(typeof(VM_Logo), typeof(V_Logo));
-        //_mappings.Add(typeof(VM_LogoutEl), typeof(V_LogoutEl));
-        //_mappings.Add(typeof(VM_ProfileEl), typeof(V_ProfileEl));
-
-        //_mappings.Add(typeof(VM_LogoutPage), typeof(V_LogoutPage));
-        //_mappings.Add(typeof(VM_ProfilePage), typeof(V_ProfilePage));
-        //_mappings.Add(typeof(VM_DetailCoin), typeof(V_DetailCoin));
+        _mappings.Add(typeof(VM_BookPage), typeof(V_BookPage));
+        _mappings.Add(typeof(VM_Authorization), typeof(V_Authorization));
+        _mappings.Add(typeof(VM_UserPage), typeof(V_UserPage));
+        _mappings.Add(typeof(VM_Add_Edit_Book), typeof(V_Add_Edit_Book));
     }
 
     public bool IsCurrentPage<TViewModel>() where TViewModel : VM_Page
     {
+        return false;
         try
         {
             return typeof(TViewModel) == CurrentViewModel;

@@ -9,19 +9,29 @@ using System.Threading.Tasks;
 
 namespace _13_Exam_BookShop.ViewModels.DbViewModels;
 
-public partial class VM_User: VM_Entity
+public partial class VM_User : VM_Entity
 {
     [ObservableProperty] M_User model;
-    public VM_User(M_User user)
+    static VM_User? Instance;
+    public static VM_User GetInstance()
     {
-        Model = user;
+        return Instance;
     }
+    public static void SetInstance(M_User user)
+    {
+        if (Instance == null)
+        {
+            Instance = new VM_User();
+        }
+        Instance.Model = user;
+    }
+    private VM_User() { }
     public int Id
     {
         get { return Model.Id; }
         set
         {
-            if (Model.Id != value) 
+            if (Model.Id != value)
             {
                 Model.Id = value;
                 OnPropertyChanged(nameof(Id));

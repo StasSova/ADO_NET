@@ -16,7 +16,6 @@ public class M_Book : DbEntity
     }
 
     public string Title { get; set; }
-
     public string Image { get; set; }
     public string Description { get; set; }
     public int NumberOfPage { get; set; }

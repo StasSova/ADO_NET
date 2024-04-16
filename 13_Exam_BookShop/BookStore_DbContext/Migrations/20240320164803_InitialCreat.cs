@@ -140,7 +140,7 @@ namespace BookStore_DbContext.Migrations
                     AuthorId = table.Column<int>(type: "int", nullable: true),
                     CostPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SellingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Discount = table.Column<decimal>(type: "decimal(3,2)", nullable: false, defaultValue: 0m),
+                    Discount = table.Column<decimal>(type: "decimal(4,2)", nullable: false, defaultValue: 0m),
                     IsOnSale = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

@@ -82,4 +82,9 @@ public partial class VM_Author: VM_Entity
             return collection;
         }
     }
+
+    public override string ToString()
+    {
+        return this.FirstName + " " + this.LastName; 
+    }
 }

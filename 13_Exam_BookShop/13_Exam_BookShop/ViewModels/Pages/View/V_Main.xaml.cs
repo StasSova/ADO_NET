@@ -21,39 +21,12 @@ namespace _13_Exam_BookShop.ViewModels.Pages.View;
 /// </summary>
 public partial class V_Main : Window
 {
-    private VM_Main ViewModel;
     public V_Main(VM_Main vM_Main)
     {
         InitializeComponent();
-        this.ViewModel = vM_Main;
-        AddGenresToMenu();
+
     }
 
 
-    private async void AddGenresToMenu()
-    {
-        // Получение списка жанров из ViewModel
-        var genres = await GetGenresFromViewModel();
-
-        // Добавление MenuItem для каждого жанра
-        foreach (var genre in genres)
-        {
-            var menuItem = new MenuItem()
-            {
-                Header = genre.Genre
-            };
-            menuItem.Click += (sender, e) => GetBooksByGenre(genre.Id);
-            MenuGanre.Items.Add(menuItem);
-        }
-    }
-
-    private async Task<List<VM_Genre>> GetGenresFromViewModel()
-    {
-        return await ViewModel.GetGenres();
-    }
-
-    private async void GetBooksByGenre(int genreId)
-    {
-        await ViewModel.GetBooksByGenre(genreId);
-    }
+    
 }
